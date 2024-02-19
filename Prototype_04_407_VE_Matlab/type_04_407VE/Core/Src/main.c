@@ -44,10 +44,15 @@ int x_start = 0;
 int y = 0;
 int y_start = 0;
 
+
+
 float x_mm = 0;
 float y_mm = 0;
 float tt_y = 0;
 float tt_x = 0;
+float tt_y_real = 0 ;
+float tt_x_real = 0 ;
+
 
 float test_x = 0;
 float test_y = 0;
@@ -273,16 +278,23 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 						
 					rtU.W1 = x_mm;
 					rtU.W2 = y_mm;
-					rtU.DEG = Mpu6050.Yaw;
+					rtU.DEG =  Mpu6050.Yaw;
 						 
-				  tt_y += rtY.YOUT;
-					tt_x += rtY.XOUT;
-
+				//  tt_y += rtY.YOUT; 
+				//	tt_x += rtY.XOUT;
+					
+					tt_y += rtY.YV_OUT;
+					tt_x += rtY.XV_OUT;
 					i++;
 					
-					if( i ==100){
+					tt_x_real =tt_x * 0.2303583;
+					tt_y_real = tt_y *0.2303583;
 					
-					printf("%f %f %f\r\n",tt_y,tt_x,Mpu6050.Yaw); 
+					// 75 mm  -  1024 ppr - > 0.2303583
+					
+				if( i ==100){
+					
+					printf("%f %f %f\r\n",tt_y_real,tt_x_real ,Mpu6050.Yaw); 
 					i = 0 ;
 					}
 					

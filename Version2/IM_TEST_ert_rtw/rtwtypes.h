@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'IM_TEST'.
  *
- * Model version                  : 1.12
+ * Model version                  : 1.15
  * Simulink Coder version         : 9.9 (R2023a) 19-Nov-2022
- * C/C++ source code generated on : Mon Jan 29 19:52:11 2024
+ * C/C++ source code generated on : Mon Feb 19 14:31:26 2024
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM Cortex-M

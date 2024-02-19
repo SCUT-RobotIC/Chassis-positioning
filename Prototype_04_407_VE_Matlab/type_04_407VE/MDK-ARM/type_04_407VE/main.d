@@ -54,3 +54,5 @@ type_04_407ve\main.o: ../Drivers/CMSIS/DSP/Include/arm_math.h
 type_04_407ve\main.o: ../Drivers/CMSIS/Include/core_cm4.h
 type_04_407ve\main.o: ../MDK-ARM/IM_TEST.h
 type_04_407ve\main.o: ../MDK-ARM/rtwtypes.h
+type_04_407ve\main.o: ../MDK-ARM/rtw_continuous.h
+type_04_407ve\main.o: ../MDK-ARM/rtw_solver.h

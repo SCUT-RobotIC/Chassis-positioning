@@ -1,6 +1,8 @@
 type_04_407ve\im_test.o: IM_TEST.c
 type_04_407ve\im_test.o: IM_TEST.h
 type_04_407ve\im_test.o: rtwtypes.h
+type_04_407ve\im_test.o: rtw_continuous.h
+type_04_407ve\im_test.o: rtw_solver.h
 type_04_407ve\im_test.o: mw_cmsis.h
 type_04_407ve\im_test.o: ../Drivers/CMSIS/DSP/Include/arm_math.h
 type_04_407ve\im_test.o: ../Drivers/CMSIS/Include/core_cm4.h

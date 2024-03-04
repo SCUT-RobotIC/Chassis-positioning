@@ -60,7 +60,7 @@ extern float q0 ,q1,q2,q3;
 
 extern encoder_data_t encoder_data[4];
 
-
+extern int16_t  MPU6050_FIFO[6][11];
 
 MPU6050_t Mpu6050;
 #define FIVE_MS_ERROR   0.00002115 // ���ϵ�Ư������ 
@@ -279,7 +279,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 				  tt_y += rtY.YOUT;
 					tt_x += rtY.XOUT;
 
-
+ /*
           DATA_upload[0] = tt_x;
           DATA_upload[1] = tt_y;
           DATA_upload[2] = q0;
@@ -288,19 +288,22 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
           DATA_upload[5] = q3;
           DATA_upload[6] = Mpu6050.Gx;
           DATA_upload[7] = Mpu6050.Gy;
-          DATA_upload[8] = Mpu6050.Gy;
+          DATA_upload[8] = Mpu6050.Gz;
           DATA_upload[9] = Mpu6050.Ax;
           DATA_upload[10] = Mpu6050.Ay;
           DATA_upload[11] = Mpu6050.Az;
-
+*/
 					i++;
 					
 					if( i ==100){
 					
 				//	printf("%f %f %f\r\n",tt_y,tt_x,Mpu6050.Yaw); 
 				
-            HAL_UART_Transmit(&huart1, (uint8_t *)DATA_upload, 96, 0xffff);
-					
+        //    HAL_UART_Transmit(&huart1, (uint8_t *)DATA_upload, 96, 0xffff);
+					printf("%f %f %f %f %f %f %f %f %f %f %f %f\r\n",tt_y,tt_x,q0,q1,q2,q3,Mpu6050.Gx,Mpu6050.Gy,
+						Mpu6050.Gz,Mpu6050.Ax,Mpu6050.Ay,Mpu6050.Az); 
+//						
+						
 						i = 0 ;
 					}
 					

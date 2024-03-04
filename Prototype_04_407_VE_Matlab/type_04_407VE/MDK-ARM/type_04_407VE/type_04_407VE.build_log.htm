@@ -27,7 +27,16 @@ Project File Date:  03/04/2024
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'F:\keil\ARM\ARMCC\Bin'
 Build target 'type_04_407VE'
-"type_04_407VE\type_04_407VE.axf" - 0 Error(s), 0 Warning(s).
+compiling main.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(51): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+../Core/Src/main.c(244): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  			Mpu6050.ac_error += FIVE_MS_ERROR ;
+../Core/Src/main.c: 2 warnings, 0 errors
+linking...
+Program Size: Code=32708 RO-data=220612 RW-data=204 ZI-data=1900  
+FromELF: creating hex file...
+"type_04_407VE\type_04_407VE.axf" - 0 Error(s), 2 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -51,7 +60,7 @@ Package Vendor: Keil
 
    * Component: ARM::CMSIS:CORE:5.5.0
       Include file:  CMSIS\Core\Include\tz_context.h
-Build Time Elapsed:  00:00:00
+Build Time Elapsed:  00:00:02
 </pre>
 </body>
 </html>

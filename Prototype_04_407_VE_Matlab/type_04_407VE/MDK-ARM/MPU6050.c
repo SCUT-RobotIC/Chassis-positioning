@@ -15,7 +15,7 @@ uint8_t check;
 #define FLASH_SIZE      (512)
 #define FLASH_MEM_START ((void*)0x1800)
 #define q30  1073741824.0f
-#define FIVE_MS_ERROR   0.00002115 // ÍøÉÏµÄÆ¯ÒÆÊý¾Ý
+#define FIVE_MS_ERROR   0.00002115 // ï¿½ï¿½ï¿½Ïµï¿½Æ¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 short gyro[3], accel[3], sensors;
 float Pitch,Roll,Yaw; 
 float q0=1.0f,q1=0.0f,q2=0.0f,q3=0.0f;
@@ -62,23 +62,23 @@ static void run_self_test(void)
     long gyro[3], accel[3];
 
     result = mpu_run_self_test(gyro, accel);
-    if (result == 0x03) {                   //·µ»Ø0x03ÎªMPU6050
+    if (result == 0x03) {                   //ï¿½ï¿½ï¿½ï¿½0x03ÎªMPU6050
         /* Test passed. We can trust the gyro data here, so let's push it down
          * to the DMP.
          */
         float sens;
         unsigned short accel_sens;
-        mpu_get_gyro_sens(&sens);			//¶ÁÈ¡µ±Ç°ÍÓÂÝÒÇµÄ×´Ì¬
+        mpu_get_gyro_sens(&sens);			//ï¿½ï¿½È¡ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½Çµï¿½×´Ì¬
         gyro[0] = (long)(gyro[0] * sens);
         gyro[1] = (long)(gyro[1] * sens);
         gyro[2] = (long)(gyro[2] * sens);
-        dmp_set_gyro_bias(gyro);			//¸ù¾Ý¶ÁÈ¡µÄ×´Ì¬½øÐÐÐ£×¼
+        dmp_set_gyro_bias(gyro);			//ï¿½ï¿½ï¿½Ý¶ï¿½È¡ï¿½ï¿½×´Ì¬ï¿½ï¿½ï¿½ï¿½Ð£×¼
 		
-        mpu_get_accel_sens(&accel_sens);	//¶ÁÈ¡µ±Ç°¼ÓËÙ¶È¼ÆµÄ×´Ì¬
+        mpu_get_accel_sens(&accel_sens);	//ï¿½ï¿½È¡ï¿½ï¿½Ç°ï¿½ï¿½ï¿½Ù¶È¼Æµï¿½×´Ì¬
         accel[0] *= accel_sens;
         accel[1] *= accel_sens;
         accel[2] *= accel_sens;
-        dmp_set_accel_bias(accel);			//¸ù¾Ý¶ÁÈ¡µÄ×´Ì¬½øÐÐÐ£×¼
+        dmp_set_accel_bias(accel);			//ï¿½ï¿½ï¿½Ý¶ï¿½È¡ï¿½ï¿½×´Ì¬ï¿½ï¿½ï¿½ï¿½Ð£×¼
 		//printf("setting bias succesfully ......\r\n");
     }
 }
@@ -89,11 +89,11 @@ int16_t  MPU6050_FIFO[6][11];
 
 int16_t Gx_offset=0,Gy_offset=0,Gz_offset=0;
 
-/**************************ÊµÏÖº¯Êý********************************************
-*º¯ÊýÔ­ÐÍ:		void  MPU6050_newValues(int16_t ax,int16_t ay,int16_t az,int16_t gx,int16_t gy,int16_t gz)
-*¹¦¡¡¡¡ÄÜ:	    ½«ÐÂµÄADCÊý¾Ý¸üÐÂµ½ FIFOÊý×é£¬½øÐÐÂË²¨´¦Àí
+/**************************Êµï¿½Öºï¿½ï¿½ï¿½********************************************
+*ï¿½ï¿½ï¿½ï¿½Ô­ï¿½ï¿½:		void  MPU6050_newValues(int16_t ax,int16_t ay,int16_t az,int16_t gx,int16_t gy,int16_t gz)
+*ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½:	    ï¿½ï¿½ï¿½Âµï¿½ADCï¿½ï¿½ï¿½Ý¸ï¿½ï¿½Âµï¿½ FIFOï¿½ï¿½ï¿½é£¬ï¿½ï¿½ï¿½ï¿½ï¿½Ë²ï¿½ï¿½ï¿½ï¿½ï¿½
 
-* ËÆºõÃ»ÓÃ ½¨ÒéÔÚsimulinkÖÐÊµÏÖÀàËÆ¹¦ÄÜ
+* ï¿½Æºï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½simulinkï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½ï¿½Æ¹ï¿½ï¿½ï¿½
 *******************************************************************************/
 
 void  MPU6050_newValues(int16_t ax,int16_t ay,int16_t az,int16_t gx,int16_t gy,int16_t gz)
@@ -102,7 +102,7 @@ void  MPU6050_newValues(int16_t ax,int16_t ay,int16_t az,int16_t gx,int16_t gy,i
 	
 	unsigned char i ;
 	int32_t sum=0;
-	for(i=1;i<10;i++){	//FIFO ²Ù×÷
+	for(i=1;i<10;i++){	//FIFO ï¿½ï¿½ï¿½ï¿½
 		MPU6050_FIFO[0][i-1]=MPU6050_FIFO[0][i];
 		MPU6050_FIFO[1][i-1]=MPU6050_FIFO[1][i];
 		MPU6050_FIFO[2][i-1]=MPU6050_FIFO[2][i];
@@ -110,7 +110,7 @@ void  MPU6050_newValues(int16_t ax,int16_t ay,int16_t az,int16_t gx,int16_t gy,i
 		MPU6050_FIFO[4][i-1]=MPU6050_FIFO[4][i];
 		MPU6050_FIFO[5][i-1]=MPU6050_FIFO[5][i];
 	}
-	MPU6050_FIFO[0][9]=ax;//½«ÐÂµÄÊý¾Ý·ÅÖÃµ½ Êý¾ÝµÄ×îºóÃæ
+	MPU6050_FIFO[0][9]=ax;//ï¿½ï¿½ï¿½Âµï¿½ï¿½ï¿½ï¿½Ý·ï¿½ï¿½Ãµï¿½ ï¿½ï¿½ï¿½Ýµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	MPU6050_FIFO[1][9]=ay;
 	MPU6050_FIFO[2][9]=az;
 	MPU6050_FIFO[3][9]=gx;
@@ -118,7 +118,7 @@ void  MPU6050_newValues(int16_t ax,int16_t ay,int16_t az,int16_t gx,int16_t gy,i
 	MPU6050_FIFO[5][9]=gz;
 
 	sum=0;
-	for(i=0;i<10;i++){	//Çóµ±Ç°Êý×éµÄºÏ£¬ÔÙÈ¡Æ½¾ùÖµ
+	for(i=0;i<10;i++){	//ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ÄºÏ£ï¿½ï¿½ï¿½È¡Æ½ï¿½ï¿½Öµ
 	   sum+=MPU6050_FIFO[0][i];
 	}
 	MPU6050_FIFO[0][10]=sum/10;
@@ -157,28 +157,43 @@ void  MPU6050_newValues(int16_t ax,int16_t ay,int16_t az,int16_t gx,int16_t gy,i
 void MPU6050_UPDATE(I2C_HandleTypeDef *I2Cx,MPU6050_t *DataStruct)
 {		
 		Read_DMP();
-    uint8_t Rec_Data[6];
-
-    // Read 6 BYTES of data starting from ACCEL_XOUT_H register
-
-    HAL_I2C_Mem_Read(I2Cx, devAddr, MPU6050_RA_ACCEL_XOUT_H, 1, Rec_Data, 6, 100);
-
-    DataStruct->Accel_X_RAW = (int16_t)(Rec_Data[0] << 8 | Rec_Data[1]);
-    DataStruct->Accel_Y_RAW = (int16_t)(Rec_Data[2] << 8 | Rec_Data[3]);
-    DataStruct->Accel_Z_RAW = (int16_t)(Rec_Data[4] << 8 | Rec_Data[5]);
-
-    /*** convert the RAW values into acceleration in 'g'
-         we have to divide according to the Full scale value set in FS_SEL
-         I have configured FS_SEL = 0. So I am dividing by 16384.0
-         for more details check ACCEL_CONFIG Register              ****/
-
-    DataStruct->Ax = DataStruct->Accel_X_RAW / 16384.0;
-    DataStruct->Ay = DataStruct->Accel_Y_RAW / 16384.0;
-    DataStruct->Az = DataStruct->Accel_Z_RAW / 14418.0; 
-	 //µ¥Î»Îª g ¼´ 9.8
 	
+//	
+//    uint8_t Rec_Data[6];
+
+
+//    // Read 6 BYTES of data starting from ACCEL_XOUT_H register
+//	
+//		
+//    HAL_I2C_Mem_Read(I2Cx, devAddr, MPU6050_RA_ACCEL_XOUT_H, 1, Rec_Data, 6, 100);
+
+//    DataStruct->Accel_X_RAW = (int16_t)(Rec_Data[0] << 8 | Rec_Data[1]);
+//    DataStruct->Accel_Y_RAW = (int16_t)(Rec_Data[2] << 8 | Rec_Data[3]);
+//    DataStruct->Accel_Z_RAW = (int16_t)(Rec_Data[4] << 8 | Rec_Data[5]);
+
+//    /*** convert the RAW values into acceleration in 'g'
+//         we have to divide according to the Full scale value set in FS_SEL
+//         I have configured FS_SEL = 0. So I am dividing by 16384.0
+//         for more details check ACCEL_CONFIG Register              ****/
+
+//    DataStruct->Ax = DataStruct->Accel_X_RAW / 16384.0;
+//    DataStruct->Ay = DataStruct->Accel_Y_RAW / 16384.0;
+//    DataStruct->Az = DataStruct->Accel_Z_RAW / 14418.0; 
+//	 //ï¿½ï¿½Î»Îª g ï¿½ï¿½ 9.8
+
+
+		MPU6050_newValues(accel[0],accel[1],accel[2],gyro[0],gyro[1],gyro[2]);
+
+    //gyro[3]   accel[3], sensors;	
+		DataStruct->Ax = MPU6050_FIFO[0][10] *0.00059814453125          ;
+		DataStruct->Ay = MPU6050_FIFO[1][10] *0.00059814453125          ;
+		DataStruct->Az = (MPU6050_FIFO[2][10] -16384 )*0.00059814453125 ;
+		DataStruct->Gx = MPU6050_FIFO[3][10] / 16.4;
+		DataStruct->Gy = MPU6050_FIFO[4][10] /16.4 ;
+		DataStruct->Gz = MPU6050_FIFO[5][10] /16.4;
+		
 	
-//		DataStruct->ac_error += FIVE_MS_ERROR;
+    	DataStruct->ac_error += FIVE_MS_ERROR;
 		DataStruct->Roll = Roll + DataStruct->ac_error;
 		DataStruct->Yaw = Yaw + DataStruct->ac_error;
 		DataStruct->Pitch = Pitch+ DataStruct->ac_error;
@@ -204,7 +219,7 @@ void MPU6050_Init(I2C_HandleTypeDef *I2Cx)
         HAL_I2C_Mem_Write(I2Cx, devAddr, MPU6050_RA_SMPLRT_DIV, 1, &Data, 1, 100);
 			
         // full-scale gyroscope range.
-				// ¡À 2000 ¡ã/s 00011000
+				// ï¿½ï¿½ 2000 ï¿½ï¿½/s 00011000
 				Data = 0x18 ;
         HAL_I2C_Mem_Write(I2Cx, devAddr , MPU6050_RA_GYRO_CONFIG, 1, &Data, 1, 100);
 
@@ -266,9 +281,9 @@ void DMP_Init(I2C_HandleTypeDef *I2Cx)
 	}
 }
 /**************************************************************************
-º¯Êý¹¦ÄÜ£º¶ÁÈ¡MPU6050ÄÚÖÃDMPµÄ×ËÌ¬ÐÅÏ¢
-Èë¿Ú²ÎÊý£ºÎÞ
-·µ»Ø  Öµ£ºÎÞ
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü£ï¿½ï¿½ï¿½È¡MPU6050ï¿½ï¿½ï¿½ï¿½DMPï¿½ï¿½ï¿½ï¿½Ì¬ï¿½ï¿½Ï¢
+ï¿½ï¿½Ú²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ï¿½ï¿½ï¿½ï¿½  Öµï¿½ï¿½ï¿½ï¿½
 **************************************************************************/
 void Read_DMP(void)
 {	
@@ -290,9 +305,9 @@ void Read_DMP(void)
 	}
 }
 ///**************************************************************************
-//º¯Êý¹¦ÄÜ£º¶ÁÈ¡MPU6050ÄÚÖÃÎÂ¶È´«¸ÐÆ÷Êý¾Ý
-//Èë¿Ú²ÎÊý£ºÎÞ
-//·µ»Ø  Öµ£ºÉãÊÏÎÂ¶È
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü£ï¿½ï¿½ï¿½È¡MPU6050ï¿½ï¿½ï¿½ï¿½ï¿½Â¶È´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//ï¿½ï¿½Ú²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//ï¿½ï¿½ï¿½ï¿½  Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¶ï¿½
 //**************************************************************************/
 //int Read_Temperature(void)
 //{	   
@@ -306,9 +321,9 @@ void Read_DMP(void)
 //}
 
 /**************************************************************************
-º¯Êý¹¦ÄÜ£º»ñÈ¡½Ç¶È 0-359
-Èë¿Ú²ÎÊý£ºÎÞ
-·µ»Ø  Öµ£ºÎÞ
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü£ï¿½ï¿½ï¿½È¡ï¿½Ç¶ï¿½ 0-359
+ï¿½ï¿½Ú²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ï¿½ï¿½ï¿½ï¿½  Öµï¿½ï¿½ï¿½ï¿½
 **************************************************************************/
 void getAngle_YAW(float *yaw,float *yaw_acc_error)
 {
@@ -353,8 +368,8 @@ void getAngle_PITCH(float *pitch,float *pitch_acc_error)
 	if(*pitch < 0)
 		*pitch = *pitch+360;
 }
-// ÓÃHAL¿âÊµÏÖµÄi2cWriteº¯Êý
-// ²ÎÊýºÍ·µ»ØÖµÓëÔ­º¯ÊýÏàÍ¬
+// ï¿½ï¿½HALï¿½ï¿½Êµï¿½Öµï¿½i2cWriteï¿½ï¿½ï¿½ï¿½
+// ï¿½ï¿½ï¿½ï¿½ï¿½Í·ï¿½ï¿½ï¿½Öµï¿½ï¿½Ô­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¬
 int i2cWrite(uint8_t addr, uint8_t reg, uint8_t len, uint8_t *data)
 {
     
@@ -369,8 +384,8 @@ int i2cWrite(uint8_t addr, uint8_t reg, uint8_t len, uint8_t *data)
 }
 
 
-// ÓÃHAL¿âÊµÏÖµÄi2cReadº¯Êý
-// ²ÎÊýºÍ·µ»ØÖµÓëÔ­º¯ÊýÏàÍ¬
+// ï¿½ï¿½HALï¿½ï¿½Êµï¿½Öµï¿½i2cReadï¿½ï¿½ï¿½ï¿½
+// ï¿½ï¿½ï¿½ï¿½ï¿½Í·ï¿½ï¿½ï¿½Öµï¿½ï¿½Ô­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¬
 int i2cRead(uint8_t addr, uint8_t reg, uint8_t len, uint8_t *buf)
 {
     

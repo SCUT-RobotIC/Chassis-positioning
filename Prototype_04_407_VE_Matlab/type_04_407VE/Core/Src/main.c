@@ -44,30 +44,26 @@ int x_start = 0;
 int y = 0;
 int y_start = 0;
 
-
-
 float x_mm = 0;
 float y_mm = 0;
 float tt_y = 0;
 float tt_x = 0;
-float tt_y_real = 0 ;
-float tt_x_real = 0 ;
-
 
 float test_x = 0;
 float test_y = 0;
-float32_t test_deg = 0 ;
+float test_deg = 0 ;
 
-float32_t a =0;
+float a =0;
 
-
+double DATA_upload[12]={0}; // x_pos >> y_pos >> x_ori >> y_ori >> z_ori >> w_ori >> x_ang >> y_ang >> z_ang >> x_acc >> y_acc >> z_acc;
+extern float q0 ,q1,q2,q3;
 
 extern encoder_data_t encoder_data[4];
 
 
 
 MPU6050_t Mpu6050;
-#define FIVE_MS_ERROR   0.00002115 // ÍøÉÏµÄÆ¯ÒÆÊý¾Ý 
+#define FIVE_MS_ERROR   0.00002115 // ï¿½ï¿½ï¿½Ïµï¿½Æ¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -278,24 +274,34 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 						
 					rtU.W1 = x_mm;
 					rtU.W2 = y_mm;
-					rtU.DEG =  Mpu6050.Yaw;
+					rtU.DEG = Mpu6050.Yaw;
 						 
-				//  tt_y += rtY.YOUT; 
-				//	tt_x += rtY.XOUT;
-					
-					tt_y += rtY.YV_OUT;
-					tt_x += rtY.XV_OUT;
+				  tt_y += rtY.YOUT;
+					tt_x += rtY.XOUT;
+
+
+          DATA_upload[0] = tt_x;
+          DATA_upload[1] = tt_y;
+          DATA_upload[2] = q0;
+          DATA_upload[3] = q1;
+          DATA_upload[4] = q2;
+          DATA_upload[5] = q3;
+          DATA_upload[6] = Mpu6050.Gx;
+          DATA_upload[7] = Mpu6050.Gy;
+          DATA_upload[8] = Mpu6050.Gy;
+          DATA_upload[9] = Mpu6050.Ax;
+          DATA_upload[10] = Mpu6050.Ay;
+          DATA_upload[11] = Mpu6050.Az;
+
 					i++;
 					
-					tt_x_real =tt_x * 0.2303583;
-					tt_y_real = tt_y *0.2303583;
+					if( i ==100){
 					
-					// 75 mm  -  1024 ppr - > 0.2303583
+				//	printf("%f %f %f\r\n",tt_y,tt_x,Mpu6050.Yaw); 
+				
+            HAL_UART_Transmit(&huart1, (uint8_t *)DATA_upload, 96, 0xffff);
 					
-				if( i ==100){
-					
-					printf("%f %f %f\r\n",tt_y_real,tt_x_real ,Mpu6050.Yaw); 
-					i = 0 ;
+						i = 0 ;
 					}
 					
 					IM_TEST_step();

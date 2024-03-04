@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'IM_TEST'.
  *
- * Model version                  : 1.15
+ * Model version                  : 1.12
  * Simulink Coder version         : 9.9 (R2023a) 19-Nov-2022
- * C/C++ source code generated on : Mon Feb 19 14:31:26 2024
+ * C/C++ source code generated on : Mon Jan 29 19:52:11 2024
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM Cortex-M
@@ -24,27 +24,7 @@
 #ifndef IM_TEST_COMMON_INCLUDES_
 #define IM_TEST_COMMON_INCLUDES_
 #include "rtwtypes.h"
-#include "rtw_continuous.h"
-#include "rtw_solver.h"
 #endif                                 /* IM_TEST_COMMON_INCLUDES_ */
-
-/* Macros for accessing real-time model data structure */
-#ifndef rtmGetErrorStatus
-#define rtmGetErrorStatus(rtm)         ((rtm)->errorStatus)
-#endif
-
-#ifndef rtmSetErrorStatus
-#define rtmSetErrorStatus(rtm, val)    ((rtm)->errorStatus = (val))
-#endif
-
-/* Forward declaration for rtModel */
-typedef struct tag_RTM RT_MODEL;
-
-/* Block signals and states (default storage) for system '<Root>' */
-typedef struct {
-  real32_T DiscreteTimeIntegrator_DSTATE;/* '<S1>/Discrete-Time Integrator' */
-  real32_T DiscreteTimeIntegrator1_DSTATE;/* '<S1>/Discrete-Time Integrator1' */
-} DW;
 
 /* External inputs (root inport signals with default storage) */
 typedef struct {
@@ -57,17 +37,7 @@ typedef struct {
 typedef struct {
   real32_T YOUT;                       /* '<Root>/YOUT' */
   real32_T XOUT;                       /* '<Root>/XOUT' */
-  real32_T XV_OUT;                     /* '<Root>/XV_OUT' */
-  real32_T YV_OUT;                     /* '<Root>/YV_OUT' */
 } ExtY;
-
-/* Real-time Model Data Structure */
-struct tag_RTM {
-  const char_T * volatile errorStatus;
-};
-
-/* Block signals and states (default storage) */
-extern DW rtDW;
 
 /* External inputs (root inport signals with default storage) */
 extern ExtU rtU;
@@ -78,9 +48,6 @@ extern ExtY rtY;
 /* Model entry point functions */
 extern void IM_TEST_initialize(void);
 extern void IM_TEST_step(void);
-
-/* Real-time Model object */
-extern RT_MODEL *const rtM;
 
 /*-
  * The generated code includes comments that allow you to trace directly

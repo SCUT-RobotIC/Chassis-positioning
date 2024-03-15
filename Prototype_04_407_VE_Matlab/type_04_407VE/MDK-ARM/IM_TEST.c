@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'IM_TEST'.
  *
- * Model version                  : 1.12
+ * Model version                  : 1.17
  * Simulink Coder version         : 9.9 (R2023a) 19-Nov-2022
- * C/C++ source code generated on : Mon Jan 29 19:52:11 2024
+ * C/C++ source code generated on : Sat Mar 16 05:23:02 2024
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM Cortex-M
@@ -98,6 +98,38 @@ void IM_TEST_step(void)
   }
 
   /* End of DeadZone: '<S1>/Dead Zone1' */
+
+  /* DeadZone: '<S1>/Dead Zone2' incorporates:
+   *  Inport: '<Root>/X_ACCIN'
+   */
+  if (rtU.X_ACCIN > 0.1) {
+    /* Outport: '<Root>/X_ACCOUT' */
+    rtY.X_ACCOUT = rtU.X_ACCIN - 0.1;
+  } else if (rtU.X_ACCIN >= -0.1) {
+    /* Outport: '<Root>/X_ACCOUT' */
+    rtY.X_ACCOUT = 0.0;
+  } else {
+    /* Outport: '<Root>/X_ACCOUT' */
+    rtY.X_ACCOUT = rtU.X_ACCIN - -0.1;
+  }
+
+  /* End of DeadZone: '<S1>/Dead Zone2' */
+
+  /* DeadZone: '<S1>/Dead Zone3' incorporates:
+   *  Inport: '<Root>/Y_ACCIN'
+   */
+  if (rtU.Y_ACCIN > 0.1) {
+    /* Outport: '<Root>/Y_ACCOUT' */
+    rtY.Y_ACCOUT = rtU.Y_ACCIN - 0.1;
+  } else if (rtU.Y_ACCIN >= -0.1) {
+    /* Outport: '<Root>/Y_ACCOUT' */
+    rtY.Y_ACCOUT = 0.0;
+  } else {
+    /* Outport: '<Root>/Y_ACCOUT' */
+    rtY.Y_ACCOUT = rtU.Y_ACCIN - -0.1;
+  }
+
+  /* End of DeadZone: '<S1>/Dead Zone3' */
   /* End of Outputs for SubSystem: '<Root>/IM_TEST' */
 }
 

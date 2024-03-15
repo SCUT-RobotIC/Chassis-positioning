@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'IM_TEST'.
  *
- * Model version                  : 1.12
+ * Model version                  : 1.17
  * Simulink Coder version         : 9.9 (R2023a) 19-Nov-2022
- * C/C++ source code generated on : Mon Jan 29 19:52:11 2024
+ * C/C++ source code generated on : Sat Mar 16 05:23:02 2024
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM Cortex-M
@@ -31,12 +31,16 @@ typedef struct {
   real32_T W1;                         /* '<Root>/W1' */
   real32_T W2;                         /* '<Root>/W2' */
   real32_T DEG;                        /* '<Root>/In1' */
+  real_T X_ACCIN;                      /* '<Root>/X_ACCIN' */
+  real_T Y_ACCIN;                      /* '<Root>/Y_ACCIN' */
 } ExtU;
 
 /* External outputs (root outports fed by signals with default storage) */
 typedef struct {
   real32_T YOUT;                       /* '<Root>/YOUT' */
   real32_T XOUT;                       /* '<Root>/XOUT' */
+  real_T X_ACCOUT;                     /* '<Root>/X_ACCOUT' */
+  real_T Y_ACCOUT;                     /* '<Root>/Y_ACCOUT' */
 } ExtY;
 
 /* External inputs (root inport signals with default storage) */

@@ -19,15 +19,13 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "can.h"
-#include "i2c.h"
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "BRT_encoder.h"
-#include "MPU6050.h"
+#include "YIS130.h"
 #include "arm_math.h"
 #include "IM_TEST.h"
 #include "stdio.h"
@@ -35,39 +33,17 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-uint8_t ID ;
-uint32_t STD ;
-int i = 0;
 
-int x = 0;
-int x_start = 0;
-int y = 0;
-int y_start = 0;
-
-float x_mm = 0;
-float y_mm = 0;
-float tt_y = 0;
-float tt_x = 0;
-
-float test_x = 0;
-float test_y = 0;
-float test_deg = 0 ;
-
-float a =0;
-
-double DATA_upload[12]={0}; // x_pos >> y_pos >> x_ori >> y_ori >> z_ori >> w_ori >> x_ang >> y_ang >> z_ang >> x_acc >> y_acc >> z_acc;
-extern float q0 ,q1,q2,q3;
-
-extern encoder_data_t encoder_data[4];
-
-extern int16_t  MPU6050_FIFO[6][11];
-
-MPU6050_t Mpu6050;
-#define FIVE_MS_ERROR   0.00002115 // О©╫О©╫О©╫о╣О©╫ф╞О©╫О©╫О©╫О©╫О©╫О©╫ 
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+
+extern MPU_DATA mpu_data[4];
+float i = 0;
+extern float ACCX,ACCY,ACCZ;
+
+int times = 0;
 int fputc(int ch, FILE *f)
  
 {
@@ -130,39 +106,27 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_CAN1_Init();
-  MX_I2C1_Init();
-  MX_USART1_UART_Init();
   MX_TIM11_Init();
   MX_TIM13_Init();
   MX_TIM14_Init();
+  MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
 	
-	MPU6050_Init(&hi2c1); 
-	DMP_Init(&hi2c1); 
-	HAL_TIM_Base_Start_IT(&htim13);
+	
+	mpu_data[0].cali = 1; // ох╡╩╧э
+	mpu_data[0].vel[0] = 0;
+	mpu_data[0].vel[1] = 0;
+
+		HAL_TIM_Base_Start_IT(&htim13);
 	HAL_TIM_Base_Start_IT(&htim14);
+	HAL_TIM_Base_Start_IT(&htim11);
 	
 	can_filter_init();
-
-
-	ID = 0x03;
-	STD = 0x003;
-	CAN_CMD_ENCODER(ID,STD);
-	HAL_Delay(1);
-	ID = 0x01;
-	STD = 0x001;
-	CAN_CMD_ENCODER(ID,STD);
-
-	HAL_Delay(1);
-
-	x_start = encoder_data[0].tt_ecd;
-	encoder_data[0].last_tt_ecd = x_start;
-	y_start = encoder_data[2].tt_ecd;
-	encoder_data[2].last_tt_ecd = y_start;
-	
-	Mpu6050.ac_error = 0;	
 		
-	HAL_TIM_Base_Start_IT(&htim11);
+//	SelfCalibration();
+	
+	HAL_Delay(100);
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -174,7 +138,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-		
+	
 
 
 
@@ -230,8 +194,8 @@ void SystemClock_Config(void)
 /* USER CODE BEGIN 4 */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-    // BRT 1024
-	
+    
+		
     if (htim == (&htim14))
     {
 			
@@ -241,74 +205,32 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		
 		if (htim == (&htim13)){
 			 		 
-			Mpu6050.ac_error += FIVE_MS_ERROR ;
 
-		 
+    
+//			arm_fir_f32_lp();
 		 }
 		 
 		 if (htim == (&htim11)){
 			
-			 		
-					ID = 0x03;
-					STD = 0x003;
-					CAN_CMD_ENCODER(ID,STD);
-					x = encoder_data[0].tt_ecd-encoder_data[0].last_tt_ecd;
-					encoder_data[0].last_tt_ecd = encoder_data[0].tt_ecd;
-					x_mm = x  ;  // wrong
-				
-					HAL_Delay(1);
-					
-					ID = 0x01;
-					STD = 0x001;
-					CAN_CMD_ENCODER(ID,STD);
-					
-				
-					y = encoder_data[2].tt_ecd-encoder_data[2].last_tt_ecd;
-					encoder_data[2].last_tt_ecd = encoder_data[2].tt_ecd;
-			
-					y_mm = y ;
-					
-					HAL_Delay(1);
-						
-					MPU6050_UPDATE(&hi2c1,&Mpu6050);	
-						
-					rtU.W1 = x_mm;
-					rtU.W2 = y_mm;
-					rtU.DEG = Mpu6050.Yaw;
-						 
-				  tt_y += rtY.YOUT;
-					tt_x += rtY.XOUT;
-
- /*
-          DATA_upload[0] = tt_x;
-          DATA_upload[1] = tt_y;
-          DATA_upload[2] = q0;
-          DATA_upload[3] = q1;
-          DATA_upload[4] = q2;
-          DATA_upload[5] = q3;
-          DATA_upload[6] = Mpu6050.Gx;
-          DATA_upload[7] = Mpu6050.Gy;
-          DATA_upload[8] = Mpu6050.Gz;
-          DATA_upload[9] = Mpu6050.Ax;
-          DATA_upload[10] = Mpu6050.Ay;
-          DATA_upload[11] = Mpu6050.Az;
-*/
-					i++;
-					
-					if( i ==100){
-					
-				//	printf("%f %f %f\r\n",tt_y,tt_x,Mpu6050.Yaw); 
-				
-        //    HAL_UART_Transmit(&huart1, (uint8_t *)DATA_upload, 96, 0xffff);
-					printf("%f %f %f %f %f %f %f %f %f %f %f %f\r\n",tt_y,tt_x,q0,q1,q2,q3,Mpu6050.Gx,Mpu6050.Gy,
-						Mpu6050.Gz,Mpu6050.Ax,Mpu6050.Ay,Mpu6050.Az); 
+//			 if(mpu_data[0].cali == 1){
+//					rtU.X_ACCIN  = mpu_data[0].acc_cali[0];
+//					rtU.Y_ACCIN  = mpu_data[0].acc_cali[1];
+//					if(times >= 10){
+//					mpu_data[0].vel[0] += rtY.X_ACCOUT;
+//				  mpu_data[0].vel[1] += rtY.Y_ACCOUT;
+//					
+//					}else{
 //						
-						
-						i = 0 ;
-					}
-					
+//					mpu_data[0].vel[0] = 0;
+//				  mpu_data[0].vel[1] = 0;
+//						times ++ ;
+//					}
+				
+				VECTOR_CONVERT();
+
 					IM_TEST_step();
-        
+			 
+			 
 		 }
 }
 

@@ -2,7 +2,7 @@
 ## Makefile generated for component 'IM_TEST'. 
 ## 
 ## Makefile     : IM_TEST.mk
-## Generated on : Sun Jan 28 19:47:59 2024
+## Generated on : Sat Mar 16 04:21:22 2024
 ## Final product: $(RELATIVE_PATH_TO_ANCHOR)/IM_TEST.exe
 ## Product type : executable
 ## 
@@ -23,7 +23,7 @@ MAKEFILE                  = IM_TEST.mk
 MATLAB_ROOT               = F:/Matlab
 MATLAB_BIN                = F:/Matlab/bin
 MATLAB_ARCH_BIN           = $(MATLAB_BIN)/win64
-START_DIR                 = F:/THE_LIBRARY/CODE_BASE/ROBOSERVO/Sleipnier_IMU/MODEL/Version2
+START_DIR                 = F:/THE_LIBRARY/CODE_BASE/ROBOSERVO/Sleipnier_IMU/MAIN/Prototype_04_407_VE_2_0_24313/Chassis-positioning/Version2
 SOLVER                    = 
 SOLVER_OBJ                = 
 CLASSIC_INTERFACE         = 0

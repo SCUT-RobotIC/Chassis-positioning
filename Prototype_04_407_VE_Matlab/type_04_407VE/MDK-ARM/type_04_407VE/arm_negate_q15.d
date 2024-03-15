@@ -1,5 +1,5 @@
 type_04_407ve\arm_negate_q15.o: ..\Drivers\CMSIS\DSP\Source\BasicMathFunctions\arm_negate_q15.c
-type_04_407ve\arm_negate_q15.o: ../Drivers/CMSIS/DSP/Include/arm_math.h
+type_04_407ve\arm_negate_q15.o: ..\Drivers\CMSIS\DSP\Include\arm_math.h
 type_04_407ve\arm_negate_q15.o: ../Drivers/CMSIS/Include/core_cm4.h
 type_04_407ve\arm_negate_q15.o: F:\keil\ARM\ARMCC\Bin\..\include\stdint.h
 type_04_407ve\arm_negate_q15.o: ../Drivers/CMSIS/Include/cmsis_version.h

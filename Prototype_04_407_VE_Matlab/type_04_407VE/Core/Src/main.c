@@ -19,6 +19,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "can.h"
+#include "spi.h"
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
@@ -29,6 +30,7 @@
 #include "arm_math.h"
 #include "IM_TEST.h"
 #include "stdio.h"
+#include "AS5048.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -110,14 +112,18 @@ int main(void)
   MX_TIM13_Init();
   MX_TIM14_Init();
   MX_USART1_UART_Init();
+  MX_SPI1_Init();
+  MX_SPI2_Init();
   /* USER CODE BEGIN 2 */
 	
+	AS5048_init(1,&hspi1,GPIOA,GPIO_PIN_4);
+	AS5048_init(2,&hspi2,GPIOB,GPIO_PIN_12);
 	
 	mpu_data[0].cali = 1; // œ»≤ªπ‹
 	mpu_data[0].vel[0] = 0;
 	mpu_data[0].vel[1] = 0;
 
-		HAL_TIM_Base_Start_IT(&htim13);
+	HAL_TIM_Base_Start_IT(&htim13);
 	HAL_TIM_Base_Start_IT(&htim14);
 	HAL_TIM_Base_Start_IT(&htim11);
 	
@@ -138,7 +144,8 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	
+	//	AS5048_getREGValue(1);
+	printf("1111\n\r");
 
 
 
@@ -227,7 +234,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 //					}
 				
   				
-					IM_TEST_step();
+//				IM_TEST_step();
 			 
 			 
 		 }

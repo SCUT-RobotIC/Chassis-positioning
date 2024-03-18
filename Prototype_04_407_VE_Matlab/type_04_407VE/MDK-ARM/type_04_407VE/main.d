@@ -29,10 +29,12 @@ type_04_407ve\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash_ex
 type_04_407ve\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash_ramfunc.h
 type_04_407ve\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h
 type_04_407ve\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h
+type_04_407ve\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h
 type_04_407ve\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h
 type_04_407ve\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
 type_04_407ve\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
 type_04_407ve\main.o: ../Core/Inc/can.h
+type_04_407ve\main.o: ../Core/Inc/spi.h
 type_04_407ve\main.o: ../Core/Inc/tim.h
 type_04_407ve\main.o: ../Core/Inc/usart.h
 type_04_407ve\main.o: ../Core/Inc/gpio.h
@@ -44,3 +46,4 @@ type_04_407ve\main.o: F:\keil\ARM\ARMCC\Bin\..\include\math.h
 type_04_407ve\main.o: ../MDK-ARM/IM_TEST.h
 type_04_407ve\main.o: ../MDK-ARM/rtwtypes.h
 type_04_407ve\main.o: F:\keil\ARM\ARMCC\Bin\..\include\stdio.h
+type_04_407ve\main.o: ../MDK-ARM/AS5048.h

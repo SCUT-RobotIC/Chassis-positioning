@@ -3,7 +3,7 @@
 <pre>
 <h1>µVision Build Log</h1>
 <h2>Tool Versions:</h2>
-IDE-Version: ¦ÌVision V5.33.0.0
+IDE-Version: ÂµVision V5.33.0.0
 Copyright (C) 2020 ARM Ltd and ARM Germany GmbH. All rights reserved.
 License Information: 1 james021103@126.com, 1, LIC=AK1BF-6HSFV-687FC-7KS8B-UIXFX-RV5UB
  
@@ -36,37 +36,43 @@ YIS130.h(46): warning:  #1295-D: Deprecated declaration SelfCalibration - give a
   void SelfCalibration();
 ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(51): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
   #define __FPU_PRESENT             1U       /*!< FPU present                                   */
-YIS130.c(93): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+YIS130.c(97): warning:  #1035-D: single-precision operand implicitly converted to double-precision
               mpu_data[0].acc[0] = ((float)(rx_data[1] << 8 | rx_data[0]))* 0.01 -320; //X Y Z
-YIS130.c(94): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+YIS130.c(98): warning:  #1035-D: single-precision operand implicitly converted to double-precision
               mpu_data[0].acc[1] = ((float)(rx_data[3] << 8 | rx_data[2]))* 0.01 -320;   
-YIS130.c(95): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+YIS130.c(99): warning:  #1035-D: single-precision operand implicitly converted to double-precision
               mpu_data[0].acc[2] = ((float)(rx_data[5] << 8 | rx_data[4]))* 0.01 -320;
-YIS130.c(121): warning:  #1035-D: single-precision operand implicitly converted to double-precision
-  						 mpu_data[0].gyro[0] = (float)((((uint32_t)(rx_data[2]&0x0F) << 16) | ((uint32_t)rx_data[1] << 8) | rx_data[0])     )* 0.0078125 - 4000;
-YIS130.c(123): warning:  #1035-D: single-precision operand implicitly converted to double-precision
-  						 mpu_data[0].gyro[1]=  (float)(((uint32_t)(rx_data[4])<< 12) | ((uint32_t)rx_data[3] << 4) | ((rx_data[2]&0xF0)>> 4))* 0.0078125 - 4000;
-YIS130.c(125): warning:  #1035-D: single-precision operand implicitly converted to double-precision
-  						 mpu_data[0].gyro[2] = (float)((((uint32_t)(rx_data[7]&0x0F) << 16) | ((uint32_t)rx_data[6] << 8) | rx_data[5] ))    * 0.0078125 - 4000;
 YIS130.c(130): warning:  #1035-D: single-precision operand implicitly converted to double-precision
-              mpu_data[0].quat[0] = ((float)(((rx_data[1] << 8) | rx_data[0])))* 3.0519E-005 - 1;  // w
-YIS130.c(131): warning:  #1035-D: single-precision operand implicitly converted to double-precision
-              mpu_data[0].quat[1] = ((float)(((rx_data[3] << 8) | rx_data[2])))* 3.0519E-005 - 1;    // x
+  						 mpu_data[0].gyro[0] = (float)((((uint32_t)(rx_data[2]&0x0F) << 16) | ((uint32_t)rx_data[1] << 8) | rx_data[0])     )* 0.0078125 - 4000;
 YIS130.c(132): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  						 mpu_data[0].gyro[1]=  (float)(((uint32_t)(rx_data[4])<< 12) | ((uint32_t)rx_data[3] << 4) | ((rx_data[2]&0xF0)>> 4))* 0.0078125 - 4000;
+YIS130.c(134): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  						 mpu_data[0].gyro[2] = (float)((((uint32_t)(rx_data[7]&0x0F) << 16) | ((uint32_t)rx_data[6] << 8) | rx_data[5] ))    * 0.0078125 - 4000;
+YIS130.c(139): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+              mpu_data[0].quat[0] = ((float)(((rx_data[1] << 8) | rx_data[0])))* 3.0519E-005 - 1;  // w
+YIS130.c(140): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+              mpu_data[0].quat[1] = ((float)(((rx_data[3] << 8) | rx_data[2])))* 3.0519E-005 - 1;    // x
+YIS130.c(141): warning:  #1035-D: single-precision operand implicitly converted to double-precision
               mpu_data[0].quat[2] = ((float)(((rx_data[5] << 8) | rx_data[4])))* 3.0519E-005 - 1;    //y  
-YIS130.c(133): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+YIS130.c(142): warning:  #1035-D: single-precision operand implicitly converted to double-precision
   						mpu_data[0].quat[3] = ((float)(((rx_data[7] << 8) | rx_data[6])))* 3.0519E-005 - 1; // z
-YIS130.c(137): warning:  #111-D: statement is unreachable
+YIS130.c(146): warning:  #111-D: statement is unreachable
               break;
+YIS130.c(162): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+              mpu_data[0].PITCH_ANGLE =  (float)pitch_raw * 0.0078125 - 250 ; // Y
+YIS130.c(163): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+              mpu_data[0].ROLL_ANGLE = (float)roll_raw * 0.0078125 - 250; // X
+YIS130.c(164): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+              mpu_data[0].YAW_ANGLE= (float)yaw_raw * 0.0078125 - 250; //Z
 YIS130.c(40): warning:  #177-D: variable "encoder_tx_message"  was declared but never referenced
   static CAN_TxHeaderTypeDef  encoder_tx_message;
 YIS130.c(41): warning:  #177-D: variable "encoder_can_send_data"  was declared but never referenced
   static uint8_t         encoder_can_send_data[4];
-YIS130.c: 17 warnings, 0 errors
+YIS130.c: 20 warnings, 0 errors
 linking...
-Program Size: Code=14036 RO-data=2628 RW-data=52 ZI-data=4236  
+Program Size: Code=14088 RO-data=2628 RW-data=52 ZI-data=4236  
 FromELF: creating hex file...
-"type_04_407VE\type_04_407VE.axf" - 0 Error(s), 17 Warning(s).
+"type_04_407VE\type_04_407VE.axf" - 0 Error(s), 20 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -90,7 +96,7 @@ Package Vendor: Keil
 
    * Component: ARM::CMSIS:CORE:5.5.0
       Include file:  CMSIS\Core\Include\tz_context.h
-Build Time Elapsed:  00:00:01
+Build Time Elapsed:  00:00:02
 </pre>
 </body>
 </html>

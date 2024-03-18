@@ -226,8 +226,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 //						times ++ ;
 //					}
 				
-				VECTOR_CONVERT();
-
+  				
 					IM_TEST_step();
 			 
 			 

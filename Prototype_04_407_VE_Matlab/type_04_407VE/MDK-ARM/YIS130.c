@@ -76,7 +76,9 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 
     HAL_CAN_GetRxMessage(hcan, CAN_RX_FIFO0, &rx_header, rx_data);
 		
-
+	  uint16_t pitch_raw;
+	  uint16_t roll_raw; 
+	  uint16_t yaw_raw;
     switch (rx_header.ExtId)
     {
 				
@@ -90,6 +92,8 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 
 //            break;
             // Little-endian
+						VECTOR_CONVERT();
+
             mpu_data[0].acc[0] = ((float)(rx_data[1] << 8 | rx_data[0]))* 0.01 -320; //X Y Z
             mpu_data[0].acc[1] = ((float)(rx_data[3] << 8 | rx_data[2]))* 0.01 -320;   
             mpu_data[0].acc[2] = ((float)(rx_data[5] << 8 | rx_data[4]))* 0.01 -320;
@@ -107,14 +111,14 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 //						mpu_data[0].acc_cali[0] = mpu_data[0].acc[1] - gX;
 //            mpu_data[0].acc_cali[1] = mpu_data[0].acc[2] - gY;
 //            mpu_data[0].acc_cali[2] = mpu_data[0].acc[0] + gZ;
+//						
 						
-						
-						mpu_data[0].acc_cali[0] = mpu_data[0].acc[0] + output_vector_data[0] ;
-            mpu_data[0].acc_cali[1] = mpu_data[0].acc[1] + output_vector_data[1];
-            mpu_data[0].acc_cali[2] = mpu_data[0].acc[2] - output_vector_data[2];
-//					  ACCX = mpu_data[0].acc[0];
-//						ACCY = mpu_data[0].acc[1];
-//						ACCZ = mpu_data[0].acc[2];
+						mpu_data[0].acc_cali[0] = mpu_data[0].acc[0] - output_vector_data[1];
+            mpu_data[0].acc_cali[1] = mpu_data[0].acc[1] + output_vector_data[0];
+            mpu_data[0].acc_cali[2] = mpu_data[0].acc[2] + output_vector_data[2];
+					  ACCX = mpu_data[0].acc[0];
+						ACCY = mpu_data[0].acc[1];
+						ACCZ = mpu_data[0].acc[2];
 
 				
             break;
@@ -146,14 +150,30 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 //            mpu_data[0].ROLL = 0.4; // X
 //            mpu_data[0].YAW = 0.3; //Z
 //            break;
-					
-            mpu_data[0].PITCH_ANGLE = (float)((rx_data[1] << 8 | rx_data[0])* 0.0078125 - 250) ; // Y
-            mpu_data[0].ROLL_ANGLE = (float)((rx_data[3] << 8 | rx_data[2])  *0.0078125 - 250) ; // X
-            mpu_data[0].YAW_ANGLE= (float)((rx_data[5] << 8 | rx_data[4]) *0.0078125 - 250)    ; //Z
+				
+				
+					 pitch_raw= ((uint16_t)rx_data[1] << 8) | rx_data[0];
+					 roll_raw = ((uint16_t)rx_data[3] << 8) | rx_data[2];
+					 yaw_raw = ((uint16_t)rx_data[5] << 8) | rx_data[4];
+//				
+
+
+//					
+            mpu_data[0].PITCH_ANGLE =  (float)pitch_raw * 0.0078125 - 250 ; // Y
+            mpu_data[0].ROLL_ANGLE = (float)roll_raw * 0.0078125 - 250; // X
+            mpu_data[0].YAW_ANGLE= (float)yaw_raw * 0.0078125 - 250; //Z
+				
+//			     mpu_data[0].PITCH_ANGLE =  asin(-2 * mpu_data[0].quat[1] * mpu_data[0].quat[3] + 2 * mpu_data[0].quat[0]* mpu_data[0].quat[2])* 57.3; 	
+//					mpu_data[0].ROLL_ANGLE = atan2(2 * mpu_data[0].quat[2] * mpu_data[0].quat[3] + 2 * mpu_data[0].quat[0] * mpu_data[0].quat[1], -2 * mpu_data[0].quat[1] * mpu_data[0].quat[1] - 2 * mpu_data[0].quat[2]* mpu_data[0].quat[2] + 1)* 57.3; 
+//					mpu_data[0].YAW_ANGLE= atan2(2 * (mpu_data[0].quat[1]*mpu_data[0].quat[2] + mpu_data[0].quat[0]*mpu_data[0].quat[3]),mpu_data[0].quat[0]*mpu_data[0].quat[0]+mpu_data[0].quat[1]*mpu_data[0].quat[1]-mpu_data[0].quat[2]*mpu_data[0].quat[2]-mpu_data[0].quat[3]*mpu_data[0].quat[3])*57.3;//yaw
+//			
 				    mpu_data[0].PITCH = mpu_data[0].PITCH_ANGLE * (3.1415926/180); // Y
             mpu_data[0].ROLL=  mpu_data[0].ROLL_ANGLE * (3.1415926/180); // X
             mpu_data[0].YAW = mpu_data[0].YAW_ANGLE * (3.1415926/180); //Z
-            break;
+            
+				
+				
+				   break;
         
         default:
             break;
@@ -191,7 +211,7 @@ void VECTOR_CONVERT(){
       arm_mat_init_f32(&rotation_matrix, 3, 3, rotation_matrix_data);
 			arm_mat_trans_f32(&rotation_matrix,&trans_rotation_matrix);
     
-		float32_t GRA_vector_data[3] = {0, 0,9.754084};
+		float32_t GRA_vector_data[3] = {0, 0, - 9.7683};
 
     arm_matrix_instance_f32 GRA_vector;
     arm_mat_init_f32(&GRA_vector, 3, 1, GRA_vector_data);

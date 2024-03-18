@@ -158,7 +158,7 @@
         <Ww>
           <count>1</count>
           <WinNumber>1</WinNumber>
-          <ItemText>mpu_data,0x10</ItemText>
+          <ItemText>mpu_data,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>2</count>

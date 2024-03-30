@@ -19,59 +19,39 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "can.h"
-#include "i2c.h"
+#include "spi.h"
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "BRT_encoder.h"
-#include "MPU6050.h"
+#include "YIS130.h"
 #include "arm_math.h"
 #include "IM_TEST.h"
 #include "stdio.h"
+#include "AS5048.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-uint8_t ID ;
-uint32_t STD ;
-int i = 0;
 
-int x = 0;
-int x_start = 0;
-int y = 0;
-int y_start = 0;
-
-
-
-float x_mm = 0;
-float y_mm = 0;
-float tt_y = 0;
-float tt_x = 0;
-float tt_y_real = 0 ;
-float tt_x_real = 0 ;
-
-
-float test_x = 0;
-float test_y = 0;
-float32_t test_deg = 0 ;
-
-float32_t a =0;
-
-
-
-extern encoder_data_t encoder_data[4];
-
-
-
-MPU6050_t Mpu6050;
-#define FIVE_MS_ERROR   0.00002115 // ÍøÉÏµÄÆ¯ÒÆÊý¾Ý 
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+
+extern MPU_DATA mpu_data[4];
+extern AS5048 AS5048s[AS5048_NUMBER];
+float i = 0;
+extern float ACCX,ACCY,ACCZ;
+float tt_x = 0;
+float tt_y = 0;
+float tt_x_real = 0;
+float tt_y_real = 0;
+
+
+int times = 0;
 int fputc(int ch, FILE *f)
  
 {
@@ -134,39 +114,37 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_CAN1_Init();
-  MX_I2C1_Init();
-  MX_USART1_UART_Init();
   MX_TIM11_Init();
   MX_TIM13_Init();
   MX_TIM14_Init();
+  MX_USART1_UART_Init();
+  MX_SPI1_Init();
+  MX_SPI2_Init();
   /* USER CODE BEGIN 2 */
 	
-	MPU6050_Init(&hi2c1); 
-	DMP_Init(&hi2c1); 
+	AS5048_init(1,&hspi1,GPIOA,GPIO_PIN_4);
+	AS5048_init(2,&hspi2,GPIOB,GPIO_PIN_12);
+	
+	mpu_data[0].cali = 1; // ï¿½È²ï¿½ï¿½ï¿½
+	mpu_data[0].vel[0] = 0;
+	mpu_data[0].vel[1] = 0;
+		
+	can_filter_init();
+	IM_TEST_initialize();
 	HAL_TIM_Base_Start_IT(&htim13);
 	HAL_TIM_Base_Start_IT(&htim14);
-	
-	can_filter_init();
-
-
-	ID = 0x03;
-	STD = 0x003;
-	CAN_CMD_ENCODER(ID,STD);
-	HAL_Delay(1);
-	ID = 0x01;
-	STD = 0x001;
-	CAN_CMD_ENCODER(ID,STD);
-
-	HAL_Delay(1);
-
-	x_start = encoder_data[0].tt_ecd;
-	encoder_data[0].last_tt_ecd = x_start;
-	y_start = encoder_data[2].tt_ecd;
-	encoder_data[2].last_tt_ecd = y_start;
-	
-	Mpu6050.ac_error = 0;	
-		
 	HAL_TIM_Base_Start_IT(&htim11);
+
+		
+//	SelfCalibration();
+	
+	HAL_Delay(100);
+	
+
+//  mpu_data[0].PITCH_ANGLE_BEG = mpu_data[0].PITCH_ANGLE;
+//  mpu_data[0].YAW_ANGLE_BEG =   mpu_data[0].YAW_ANGLE;
+//  mpu_data[0].ROLL_ANGLE_BEG =  mpu_data[0].ROLL_ANGLE;
+//  
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -178,8 +156,14 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-		
-
+	AS5048_getREGValue(1);
+	HAL_Delay(1);
+	AS5048_dataUpdate(1);	
+	HAL_Delay(1);
+	AS5048_getREGValue(2);
+	HAL_Delay(1);
+	AS5048_dataUpdate(2);	
+	HAL_Delay(1);
 
 
   }
@@ -234,8 +218,8 @@ void SystemClock_Config(void)
 /* USER CODE BEGIN 4 */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-    // BRT 1024
-	
+    
+		
     if (htim == (&htim14))
     {
 			
@@ -245,62 +229,40 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		
 		if (htim == (&htim13)){
 			 		 
-			Mpu6050.ac_error += FIVE_MS_ERROR ;
 
-		 
+    
+//			arm_fir_f32_lp();
 		 }
 		 
 		 if (htim == (&htim11)){
 			
-			 		
-					ID = 0x03;
-					STD = 0x003;
-					CAN_CMD_ENCODER(ID,STD);
-					x = encoder_data[0].tt_ecd-encoder_data[0].last_tt_ecd;
-					encoder_data[0].last_tt_ecd = encoder_data[0].tt_ecd;
-					x_mm = x  ;  // wrong
-				
-					HAL_Delay(1);
-					
-					ID = 0x01;
-					STD = 0x001;
-					CAN_CMD_ENCODER(ID,STD);
-					
-				
-					y = encoder_data[2].tt_ecd-encoder_data[2].last_tt_ecd;
-					encoder_data[2].last_tt_ecd = encoder_data[2].tt_ecd;
-			
-					y_mm = y ;
-					
-					HAL_Delay(1);
+			 if(mpu_data[0].cali == 1){
+//					rtU.X_ACCIN  = mpu_data[0].acc_cali[0];
+//					rtU.Y_ACCIN  = mpu_data[0].acc_cali[1];
+				 
+					if(times >= 10){
+
+
+            rtU.W1 = AS5048s[0].delta_dis;
+            rtU.W2 = AS5048s[1].delta_dis;
+            rtU.DEG = mpu_data[0].YAW_ANGLE;
 						
-					MPU6050_UPDATE(&hi2c1,&Mpu6050);	
+            tt_y += rtY.YOUT*0.014373;
+            tt_x += rtY.XOUT*0.014373;
+					
+					}else{
 						
-					rtU.W1 = x_mm;
-					rtU.W2 = y_mm;
-					rtU.DEG =  Mpu6050.Yaw;
-						 
-				//  tt_y += rtY.YOUT; 
-				//	tt_x += rtY.XOUT;
-					
-					tt_y += rtY.YV_OUT;
-					tt_x += rtY.XV_OUT;
-					i++;
-					
-					tt_x_real =tt_x * 0.2303583;
-					tt_y_real = tt_y *0.2303583;
-					
-					// 75 mm  -  1024 ppr - > 0.2303583
-					
-				if( i ==100){
-					
-					printf("%f %f %f\r\n",tt_y_real,tt_x_real ,Mpu6050.Yaw); 
-					i = 0 ;
+					  mpu_data[0].vel[0] = 0;
+				    mpu_data[0].vel[1] = 0;
+						times ++ ;
 					}
-					
-					IM_TEST_step();
-        
+				
+  				
+				IM_TEST_step();
+			 
+			 
 		 }
+		}
 }
 
 /* USER CODE END 4 */

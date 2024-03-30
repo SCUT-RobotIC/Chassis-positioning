@@ -1,5 +1,5 @@
 type_04_407ve\arm_common_tables.o: ..\Drivers\CMSIS\DSP\Source\CommonTables\arm_common_tables.c
-type_04_407ve\arm_common_tables.o: ../Drivers/CMSIS/DSP/Include/arm_math.h
+type_04_407ve\arm_common_tables.o: ..\Drivers\CMSIS\DSP\Include\arm_math.h
 type_04_407ve\arm_common_tables.o: ../Drivers/CMSIS/Include/core_cm4.h
 type_04_407ve\arm_common_tables.o: F:\keil\ARM\ARMCC\Bin\..\include\stdint.h
 type_04_407ve\arm_common_tables.o: ../Drivers/CMSIS/Include/cmsis_version.h
@@ -7,4 +7,4 @@ type_04_407ve\arm_common_tables.o: ../Drivers/CMSIS/Include/cmsis_compiler.h
 type_04_407ve\arm_common_tables.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
 type_04_407ve\arm_common_tables.o: F:\keil\ARM\ARMCC\Bin\..\include\string.h
 type_04_407ve\arm_common_tables.o: F:\keil\ARM\ARMCC\Bin\..\include\math.h
-type_04_407ve\arm_common_tables.o: ../Drivers/CMSIS/DSP/Include/arm_common_tables.h
+type_04_407ve\arm_common_tables.o: ..\Drivers\CMSIS\DSP\Include\arm_common_tables.h

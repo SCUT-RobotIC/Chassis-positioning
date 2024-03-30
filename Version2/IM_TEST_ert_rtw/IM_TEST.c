@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'IM_TEST'.
  *
- * Model version                  : 1.15
+ * Model version                  : 1.17
  * Simulink Coder version         : 9.9 (R2023a) 19-Nov-2022
- * C/C++ source code generated on : Mon Feb 19 14:31:26 2024
+ * C/C++ source code generated on : Sat Mar 16 05:23:02 2024
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM Cortex-M
@@ -23,24 +23,16 @@
 #include "mw_cmsis.h"
 #include "rtwtypes.h"
 
-/* Block signals and states (default storage) */
-DW rtDW;
-
 /* External inputs (root inport signals with default storage) */
 ExtU rtU;
 
 /* External outputs (root outports fed by signals with default storage) */
 ExtY rtY;
 
-/* Real-time model */
-static RT_MODEL rtM_;
-RT_MODEL *const rtM = &rtM_;
-
 /* Model step function */
 void IM_TEST_step(void)
 {
   real32_T rtb_Add2;
-  real32_T rtb_DeadZone;
   real32_T rtb_Sum2;
 
   /* Outputs for Atomic SubSystem: '<Root>/IM_TEST' */
@@ -65,12 +57,15 @@ void IM_TEST_step(void)
     (rtb_Sum2 + 2.3561945F) * rtU.W2;
 
   /* DeadZone: '<S1>/Dead Zone' */
-  if (rtb_Add2 > 0.005F) {
-    rtb_DeadZone = rtb_Add2 - 0.005F;
-  } else if (rtb_Add2 >= -0.005F) {
-    rtb_DeadZone = 0.0F;
+  if (rtb_Add2 > 5.0E-5F) {
+    /* Outport: '<Root>/YOUT' */
+    rtY.YOUT = rtb_Add2 - 5.0E-5F;
+  } else if (rtb_Add2 >= -0.0005F) {
+    /* Outport: '<Root>/YOUT' */
+    rtY.YOUT = 0.0F;
   } else {
-    rtb_DeadZone = rtb_Add2 - -0.005F;
+    /* Outport: '<Root>/YOUT' */
+    rtY.YOUT = rtb_Add2 - -0.0005F;
   }
 
   /* End of DeadZone: '<S1>/Dead Zone' */
@@ -91,39 +86,51 @@ void IM_TEST_step(void)
     (rtb_Sum2 + 2.3561945F) * rtU.W2;
 
   /* DeadZone: '<S1>/Dead Zone1' */
-  if (rtb_Add2 > 0.005F) {
-    rtb_Sum2 = rtb_Add2 - 0.005F;
-  } else if (rtb_Add2 >= -0.005F) {
-    rtb_Sum2 = 0.0F;
+  if (rtb_Add2 > 5.0E-5F) {
+    /* Outport: '<Root>/XOUT' */
+    rtY.XOUT = rtb_Add2 - 5.0E-5F;
+  } else if (rtb_Add2 >= -0.0005F) {
+    /* Outport: '<Root>/XOUT' */
+    rtY.XOUT = 0.0F;
   } else {
-    rtb_Sum2 = rtb_Add2 - -0.005F;
+    /* Outport: '<Root>/XOUT' */
+    rtY.XOUT = rtb_Add2 - -0.0005F;
   }
 
   /* End of DeadZone: '<S1>/Dead Zone1' */
 
-  /* Outport: '<Root>/XOUT' incorporates:
-   *  DiscreteIntegrator: '<S1>/Discrete-Time Integrator'
+  /* DeadZone: '<S1>/Dead Zone2' incorporates:
+   *  Inport: '<Root>/X_ACCIN'
    */
-  rtY.XOUT = rtDW.DiscreteTimeIntegrator_DSTATE;
+  if (rtU.X_ACCIN > 0.1) {
+    /* Outport: '<Root>/X_ACCOUT' */
+    rtY.X_ACCOUT = rtU.X_ACCIN - 0.1;
+  } else if (rtU.X_ACCIN >= -0.1) {
+    /* Outport: '<Root>/X_ACCOUT' */
+    rtY.X_ACCOUT = 0.0;
+  } else {
+    /* Outport: '<Root>/X_ACCOUT' */
+    rtY.X_ACCOUT = rtU.X_ACCIN - -0.1;
+  }
 
-  /* Outport: '<Root>/YOUT' incorporates:
-   *  DiscreteIntegrator: '<S1>/Discrete-Time Integrator1'
+  /* End of DeadZone: '<S1>/Dead Zone2' */
+
+  /* DeadZone: '<S1>/Dead Zone3' incorporates:
+   *  Inport: '<Root>/Y_ACCIN'
    */
-  rtY.YOUT = rtDW.DiscreteTimeIntegrator1_DSTATE;
+  if (rtU.Y_ACCIN > 0.1) {
+    /* Outport: '<Root>/Y_ACCOUT' */
+    rtY.Y_ACCOUT = rtU.Y_ACCIN - 0.1;
+  } else if (rtU.Y_ACCIN >= -0.1) {
+    /* Outport: '<Root>/Y_ACCOUT' */
+    rtY.Y_ACCOUT = 0.0;
+  } else {
+    /* Outport: '<Root>/Y_ACCOUT' */
+    rtY.Y_ACCOUT = rtU.Y_ACCIN - -0.1;
+  }
 
-  /* Update for DiscreteIntegrator: '<S1>/Discrete-Time Integrator' */
-  rtDW.DiscreteTimeIntegrator_DSTATE += 0.0001F * rtb_Sum2;
-
-  /* Update for DiscreteIntegrator: '<S1>/Discrete-Time Integrator1' */
-  rtDW.DiscreteTimeIntegrator1_DSTATE += 0.0001F * rtb_DeadZone;
-
+  /* End of DeadZone: '<S1>/Dead Zone3' */
   /* End of Outputs for SubSystem: '<Root>/IM_TEST' */
-
-  /* Outport: '<Root>/XV_OUT' */
-  rtY.XV_OUT = rtb_Sum2;
-
-  /* Outport: '<Root>/YV_OUT' */
-  rtY.YV_OUT = rtb_DeadZone;
 }
 
 /* Model initialize function */

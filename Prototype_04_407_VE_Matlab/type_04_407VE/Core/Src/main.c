@@ -19,6 +19,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "can.h"
+#include "spi.h"
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
@@ -29,6 +30,7 @@
 #include "arm_math.h"
 #include "IM_TEST.h"
 #include "stdio.h"
+#include "AS5048.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -40,9 +42,15 @@
 /* USER CODE BEGIN PD */
 
 extern MPU_DATA mpu_data[4];
+extern AS5048 AS5048s[AS5048_NUMBER];
 float i = 0;
 extern float ACCX,ACCY,ACCZ;
+float tt_x = 0;
+float tt_y = 0;
+float tt_x_real = 0;
+float tt_y_real = 0;
 
+int add = 0;
 int times = 0;
 int fputc(int ch, FILE *f)
  
@@ -110,23 +118,34 @@ int main(void)
   MX_TIM13_Init();
   MX_TIM14_Init();
   MX_USART1_UART_Init();
+  MX_SPI1_Init();
+  MX_SPI2_Init();
   /* USER CODE BEGIN 2 */
 	
+	AS5048_init(1,&hspi1,GPIOA,GPIO_PIN_4);
+	AS5048_init(2,&hspi2,GPIOB,GPIO_PIN_12);
 	
-	mpu_data[0].cali = 1; // ÏÈ²»¹Ü
+	mpu_data[0].cali = 1; // ï¿½È²ï¿½ï¿½ï¿½
 	mpu_data[0].vel[0] = 0;
 	mpu_data[0].vel[1] = 0;
-
-		HAL_TIM_Base_Start_IT(&htim13);
+		
+	can_filter_init();
+	IM_TEST_initialize();
+	
+	HAL_TIM_Base_Start_IT(&htim13);
 	HAL_TIM_Base_Start_IT(&htim14);
 	HAL_TIM_Base_Start_IT(&htim11);
-	
-	can_filter_init();
+
 		
 //	SelfCalibration();
 	
-	HAL_Delay(100);
+//	HAL_Delay(100);
+	
 
+//  mpu_data[0].PITCH_ANGLE_BEG = mpu_data[0].PITCH_ANGLE;
+//  mpu_data[0].YAW_ANGLE_BEG =   mpu_data[0].YAW_ANGLE;
+//  mpu_data[0].ROLL_ANGLE_BEG =  mpu_data[0].ROLL_ANGLE;
+//  
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -139,7 +158,6 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 	
-
 
 
   }
@@ -212,25 +230,57 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		 
 		 if (htim == (&htim11)){
 			
-//			 if(mpu_data[0].cali == 1){
+			 if(mpu_data[0].cali == 1){
 //					rtU.X_ACCIN  = mpu_data[0].acc_cali[0];
 //					rtU.Y_ACCIN  = mpu_data[0].acc_cali[1];
-//					if(times >= 10){
-//					mpu_data[0].vel[0] += rtY.X_ACCOUT;
-//				  mpu_data[0].vel[1] += rtY.Y_ACCOUT;
-//					
-//					}else{
-//						
-//					mpu_data[0].vel[0] = 0;
-//				  mpu_data[0].vel[1] = 0;
-//						times ++ ;
-//					}
+				 
+					if(times >= 500){
+						
+						add++;
+						AS5048_getREGValue(1);
+					//	HAL_Delay(1);
+						AS5048_dataUpdate(1);	
+				//		HAL_Delay(1);
+						AS5048_getREGValue(2);
+				//		HAL_Delay(1);
+						AS5048_dataUpdate(2);	
+				//		HAL_Delay(1);
+
+
+            rtU.W1 = -AS5048s[1].delta_dis;
+            rtU.W2 = AS5048s[0].delta_dis;
+            rtU.DEG = mpu_data[0].YAW_ANGLE;
+						
+            tt_y += rtY.YOUT ;//*0.014373;
+            tt_x += rtY.XOUT ;//*0.014373;
+						tt_y_real = tt_y  * 0.014373;
+						tt_x_real = tt_x  * 0.014373;
+						// x y yaw
+						if(add >=10){
+							printf("%f %f %f\r\n",tt_x_real,tt_y_real,mpu_data[0].YAW_ANGLE);
+						  add = 0;
+						}
+						
+					}else{
+						
+							AS5048_getREGValue(1);
+						//	HAL_Delay(1);
+							AS5048_dataUpdate(1);	
+					//		HAL_Delay(1);
+							AS5048_getREGValue(2);
+					//		HAL_Delay(1);
+							AS5048_dataUpdate(2);
+					  mpu_data[0].vel[0] = 0;
+				    mpu_data[0].vel[1] = 0;
+						times ++ ;
+					}
 				
   				
-					IM_TEST_step();
+				IM_TEST_step();
 			 
 			 
 		 }
+		}
 }
 
 /* USER CODE END 4 */

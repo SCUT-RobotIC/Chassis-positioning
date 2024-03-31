@@ -10,12 +10,23 @@ typedef struct
 		float acc_cali[3];
 		double vel[3];
 	  float gyro[3];         
-    float PITCH;
+      
+	  
+	  float PITCH;
 	  float YAW; 
 	  float ROLL;
 	  float PITCH_ANGLE;
 	  float YAW_ANGLE; 
 	  float ROLL_ANGLE;
+	  float PITCH_ANGLE_BEG;
+	  float YAW_ANGLE_BEG;
+	  float ROLL_ANGLE_BEG;
+	  float PITCH_ANGLE_Del;
+	  float YAW_ANGLE_Del;
+	  float ROLL_ANGLE_Del;
+
+
+
 		float quat[4];
 	  float ACCX_CALI;
 		float ACCY_CALI;

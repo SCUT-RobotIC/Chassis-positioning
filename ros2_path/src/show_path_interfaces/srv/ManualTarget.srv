@@ -1,0 +1,7 @@
+float64 x_now
+float64 y_now
+float64 yaw_now
+---
+float64 x_next
+float64 y_next
+float64 yaw_next

@@ -27,3 +27,23 @@
 + 编码器一圈16384
 
 + 所以每编码器格 = 0,014373
+
+## 启动场地定位可视化
+- 修改Cmakelist: add_executable(talker src/SerialPath.cpp src/Serial.cpp)
+- 打开一个新的终端，导航到 `ros2_path`，
+```
+cd  ~/ros2_path
+colcon build --packages-select show_path
+. install/setup.bash
+ros2 run show_path talker
+ros2 launch show_path show_path.launch.py
+```
+  
+## 启动底盘闭环控制Demo
+- 修改Cmakelist: add_executable(talker src/SerialControl.cpp src/Serial.cpp)
+- 打开一个新的终端，导航到 `ros2_path`
+  ```
+  cd  ~/ros2_path
+  chmod +x launch.sh
+  ./launch.sh
+  ```

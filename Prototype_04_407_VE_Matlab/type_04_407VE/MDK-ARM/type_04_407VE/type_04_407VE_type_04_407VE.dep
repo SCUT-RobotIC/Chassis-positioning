@@ -1,10 +1,11 @@
 Dependencies for Project 'type_04_407VE', Target 'type_04_407VE': (DO NOT MODIFY !)
 CompilerVersion: 5060960::V5.06 update 7 (build 960)::ARMCC
-F (startup_stm32f407xx.s)(0x6606A7D4)(--cpu Cortex-M4.fp.sp -g --apcs=interwork --pd "__MICROLIB SETA 1"-I.\RTE\_type_04_407VE-IF:\keil\ARM\PACK\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IF:\keil\ARM\PACK\Keil\STM32F4xx_DFP\2.17.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include--pd "__UVISION_VERSION SETA 533" --pd "_RTE_ SETA 1" --pd "STM32F407xx SETA 1" --pd "_RTE_ SETA 1"--list startup_stm32f407xx.lst --xref -o type_04_407ve\startup_stm32f407xx.o --depend type_04_407ve\startup_stm32f407xx.d)
-F (.\IM_TEST.c)(0x66093C34)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../MDK-ARM -I ../Drivers/CMSIS/DSP/Include -I ../Middlewares/ST/ARM/DSP/Inc-I.\RTE\_type_04_407VE-IF:\keil\ARM\PACK\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IF:\keil\ARM\PACK\Keil\STM32F4xx_DFP\2.17.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="533" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx -DARM_MATH_CM4 -D__CC_ARM -D__TARGET_FPU_VFP -D__FPU_PRESENT="1"-o type_04_407ve\im_test.o --omf_browse type_04_407ve\im_test.crf --depend type_04_407ve\im_test.d)
-I (IM_TEST.h)(0x66093C34)
-I (rtwtypes.h)(0x66093C34)
-I (mw_cmsis.h)(0x66093C34)
+F (startup_stm32f407xx.s)(0x66322630)(--cpu Cortex-M4.fp.sp -g --apcs=interwork --pd "__MICROLIB SETA 1"-I.\RTE\_type_04_407VE-IF:\keil\ARM\PACK\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IF:\keil\ARM\PACK\Keil\STM32F4xx_DFP\2.17.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include--pd "__UVISION_VERSION SETA 533" --pd "_RTE_ SETA 1" --pd "STM32F407xx SETA 1" --pd "_RTE_ SETA 1"--list startup_stm32f407xx.lst --xref -o type_04_407ve\startup_stm32f407xx.o --depend type_04_407ve\startup_stm32f407xx.d)
+F (.\IM_TEST.c)(0x6632342C)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../MDK-ARM -I ../Drivers/CMSIS/DSP/Include -I ../Middlewares/ST/ARM/DSP/Inc-I.\RTE\_type_04_407VE-IF:\keil\ARM\PACK\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IF:\keil\ARM\PACK\Keil\STM32F4xx_DFP\2.17.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="533" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx -DARM_MATH_CM4 -D__CC_ARM -D__TARGET_FPU_VFP -D__FPU_PRESENT="1"-o type_04_407ve\im_test.o --omf_browse type_04_407ve\im_test.crf --depend type_04_407ve\im_test.d)
+I (IM_TEST.h)(0x6632342C)
+I (rtwtypes.h)(0x6632342C)
+I (F:\keil\ARM\ARMCC\include\math.h)(0x5E8E2EB2)
+I (mw_cmsis.h)(0x6632342B)
 I (../Drivers/CMSIS/DSP/Include/arm_math.h)(0x641C4F8C)
 I (../Drivers/CMSIS/Include/core_cm4.h)(0x641C4F8C)
 I (F:\keil\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
@@ -12,7 +13,6 @@ I (../Drivers/CMSIS/Include/cmsis_version.h)(0x641C4F8C)
 I (../Drivers/CMSIS/Include/cmsis_compiler.h)(0x641C4F8C)
 I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x641C4F8C)
 I (F:\keil\ARM\ARMCC\include\string.h)(0x5E8E2EB2)
-I (F:\keil\ARM\ARMCC\include\math.h)(0x5E8E2EB2)
 I (F:\keil\ARM\ARMCC\include\stddef.h)(0x5E8E2EB2)
 F (.\YIS130.c)(0x6607EBAC)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../MDK-ARM -I ../Drivers/CMSIS/DSP/Include -I ../Middlewares/ST/ARM/DSP/Inc-I.\RTE\_type_04_407VE-IF:\keil\ARM\PACK\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IF:\keil\ARM\PACK\Keil\STM32F4xx_DFP\2.17.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="533" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx -DARM_MATH_CM4 -D__CC_ARM -D__TARGET_FPU_VFP -D__FPU_PRESENT="1"-o type_04_407ve\yis130.o --omf_browse type_04_407ve\yis130.crf --depend type_04_407ve\yis130.d)
 I (YIS130.h)(0x6607E6EC)
@@ -90,7 +90,7 @@ I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h)(0x641C4FCD)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h)(0x641C4FCD)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h)(0x641C4FCD)
 I (../Core/Inc/spi.h)(0x65F7F996)
-F (../Core/Src/main.c)(0x66093D1E)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../MDK-ARM -I ../Drivers/CMSIS/DSP/Include -I ../Middlewares/ST/ARM/DSP/Inc-I.\RTE\_type_04_407VE-IF:\keil\ARM\PACK\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IF:\keil\ARM\PACK\Keil\STM32F4xx_DFP\2.17.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="533" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx -DARM_MATH_CM4 -D__CC_ARM -D__TARGET_FPU_VFP -D__FPU_PRESENT="1"-o type_04_407ve\main.o --omf_browse type_04_407ve\main.crf --depend type_04_407ve\main.d)
+F (../Core/Src/main.c)(0x6632382C)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../MDK-ARM -I ../Drivers/CMSIS/DSP/Include -I ../Middlewares/ST/ARM/DSP/Inc-I.\RTE\_type_04_407VE-IF:\keil\ARM\PACK\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IF:\keil\ARM\PACK\Keil\STM32F4xx_DFP\2.17.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="533" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx -DARM_MATH_CM4 -D__CC_ARM -D__TARGET_FPU_VFP -D__FPU_PRESENT="1"-o type_04_407ve\main.o --omf_browse type_04_407ve\main.crf --depend type_04_407ve\main.d)
 I (../Core/Inc/main.h)(0x65F7F997)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x641C4FCD)
 I (../Core/Inc/stm32f4xx_hal_conf.h)(0x65F7F997)
@@ -133,8 +133,8 @@ I (../MDK-ARM/YIS130.h)(0x6607E6EC)
 I (../Drivers/CMSIS/DSP/Include/arm_math.h)(0x641C4F8C)
 I (F:\keil\ARM\ARMCC\include\string.h)(0x5E8E2EB2)
 I (F:\keil\ARM\ARMCC\include\math.h)(0x5E8E2EB2)
-I (../MDK-ARM/IM_TEST.h)(0x66093C34)
-I (../MDK-ARM/rtwtypes.h)(0x66093C34)
+I (../MDK-ARM/IM_TEST.h)(0x6632342C)
+I (../MDK-ARM/rtwtypes.h)(0x6632342C)
 I (F:\keil\ARM\ARMCC\include\stdio.h)(0x5E8E2EB2)
 I (../MDK-ARM/AS5048.h)(0x6607E44E)
 F (../Core/Src/gpio.c)(0x65F7F996)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../MDK-ARM -I ../Drivers/CMSIS/DSP/Include -I ../Middlewares/ST/ARM/DSP/Inc-I.\RTE\_type_04_407VE-IF:\keil\ARM\PACK\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IF:\keil\ARM\PACK\Keil\STM32F4xx_DFP\2.17.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="533" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx -DARM_MATH_CM4 -D__CC_ARM -D__TARGET_FPU_VFP -D__FPU_PRESENT="1"-o type_04_407ve\gpio.o --omf_browse type_04_407ve\gpio.crf --depend type_04_407ve\gpio.d)
@@ -277,7 +277,7 @@ I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h)(0x641C4FCD)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h)(0x641C4FCD)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h)(0x641C4FCD)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h)(0x641C4FCD)
-F (../Core/Src/usart.c)(0x65F16DD6)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../MDK-ARM -I ../Drivers/CMSIS/DSP/Include -I ../Middlewares/ST/ARM/DSP/Inc-I.\RTE\_type_04_407VE-IF:\keil\ARM\PACK\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IF:\keil\ARM\PACK\Keil\STM32F4xx_DFP\2.17.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="533" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx -DARM_MATH_CM4 -D__CC_ARM -D__TARGET_FPU_VFP -D__FPU_PRESENT="1"-o type_04_407ve\usart.o --omf_browse type_04_407ve\usart.crf --depend type_04_407ve\usart.d)
+F (../Core/Src/usart.c)(0x66322627)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../MDK-ARM -I ../Drivers/CMSIS/DSP/Include -I ../Middlewares/ST/ARM/DSP/Inc-I.\RTE\_type_04_407VE-IF:\keil\ARM\PACK\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IF:\keil\ARM\PACK\Keil\STM32F4xx_DFP\2.17.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="533" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx -DARM_MATH_CM4 -D__CC_ARM -D__TARGET_FPU_VFP -D__FPU_PRESENT="1"-o type_04_407ve\usart.o --omf_browse type_04_407ve\usart.crf --depend type_04_407ve\usart.d)
 I (../Core/Inc/usart.h)(0x65F16DD6)
 I (../Core/Inc/main.h)(0x65F7F997)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x641C4FCD)

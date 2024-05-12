@@ -256,7 +256,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 						tt_y_real = tt_y  * 0.014373;
 						tt_x_real = tt_x  * 0.014373;
 						// x y yaw
-						if(add >=10){
+						if(add >= 50){
 							printf("%f %f %f\r\n",tt_x_real,tt_y_real,mpu_data[0].YAW_ANGLE);
 						  add = 0;
 						}

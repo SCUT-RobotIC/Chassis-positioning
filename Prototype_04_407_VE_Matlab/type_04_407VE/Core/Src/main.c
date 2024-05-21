@@ -19,6 +19,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "can.h"
+#include "dma.h"
 #include "spi.h"
 #include "tim.h"
 #include "usart.h"
@@ -31,6 +32,7 @@
 #include "IM_TEST.h"
 #include "stdio.h"
 #include "AS5048.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -41,14 +43,22 @@
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 
+uint8_t receive_buff[8] = {0}; // init  
+int receivefactor[2];
+// header x_low x_high y y yaw yaw footer
+uint8_t tx_buff[255];
+
+
 extern MPU_DATA mpu_data[4];
 extern AS5048 AS5048s[AS5048_NUMBER];
 float i = 0;
 extern float ACCX,ACCY,ACCZ;
-float tt_x = 0;
-float tt_y = 0;
-float tt_x_real = 0;
-float tt_y_real = 0;
+//float tt_x = 0;
+//float tt_y = 0;
+//float tt_x_real = 0;
+//float tt_y_real = 0;
+
+
 
 int add = 0;
 int times = 0;
@@ -61,6 +71,25 @@ int fputc(int ch, FILE *f)
   return ch;
  
 }
+
+
+typedef struct struct_message
+{
+  uint8_t header;
+  uint8_t parity;
+  uint8_t data[6];
+  uint8_t footer;
+} DataPacket;
+
+DataPacket DataRe;
+uint8_t USART_FLAG = 0;
+
+
+
+uint8_t USART1_RX_BUF[100]; 
+uint16_t USART1_RX_STA = 0; 
+uint8_t aRxBuffer1[1];		  
+UART_HandleTypeDef UART1_Handler; 
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -113,6 +142,7 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
   MX_CAN1_Init();
   MX_TIM11_Init();
   MX_TIM13_Init();
@@ -122,12 +152,18 @@ int main(void)
   MX_SPI2_Init();
   /* USER CODE BEGIN 2 */
 	
+//	__HAL_UART_ENABLE_IT(&huart1, UART_IT_IDLE); 
+	HAL_UART_Receive_DMA(&huart1,aRxBuffer1,1);	
+	
+	
 	AS5048_init(1,&hspi1,GPIOA,GPIO_PIN_4);
 	AS5048_init(2,&hspi2,GPIOB,GPIO_PIN_12);
 	
 	mpu_data[0].cali = 1; // �Ȳ���
 	mpu_data[0].vel[0] = 0;
 	mpu_data[0].vel[1] = 0;
+   mpu_data[0].REAL_YAW_SET = 0 ;
+	 mpu_data[0].REAL_YAW_MARK = 0;
 		
 	can_filter_init();
 	IM_TEST_initialize();
@@ -210,6 +246,41 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+			while  (huart->Instance == USART1)
+		{
+			
+				USART1_RX_BUF[USART1_RX_STA] = aRxBuffer1[0];
+				if (USART1_RX_STA == 0 && USART1_RX_BUF[USART1_RX_STA] != 0x0F) 	
+				{			
+					HAL_UART_Receive_DMA(&huart1,aRxBuffer1,1);	
+					break; //
+				}
+				USART1_RX_STA++;
+			HAL_UART_Receive_DMA(&huart1,aRxBuffer1,1);
+			if (USART1_RX_STA > 100) USART1_RX_STA = 0;  //
+			if (USART1_RX_BUF[0] == 0x0F && USART1_RX_BUF[7] == 0xAA && USART1_RX_STA == 8)	//检测包头包尾以及数据包长度
+			{
+				DATARELOAD(USART1_RX_BUF);
+				receivefactor[1]=1;
+				
+
+				USART1_RX_STA = 0;
+			}
+			else if(!(USART1_RX_BUF[0] == 0x0F && USART1_RX_BUF[7] == 0xAA) && USART1_RX_STA == 8){
+				for(int i=0;i<8;i++)
+					USART1_RX_BUF[i] = 0;
+				USART1_RX_STA = 0;
+			}
+
+			break;
+			
+		}
+		
+
+}
+
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
     
@@ -245,19 +316,24 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 				//		HAL_Delay(1);
 						AS5048_dataUpdate(2);	
 				//		HAL_Delay(1);
-
+						
+						
+						mpu_data[0].REAL_YAW = mpu_data[0].YAW_ANGLE -mpu_data[0].REAL_YAW_SET + mpu_data[0].REAL_YAW_MARK ;
 
             rtU.W1 = -AS5048s[1].delta_dis;
             rtU.W2 = AS5048s[0].delta_dis;
-            rtU.DEG = mpu_data[0].YAW_ANGLE;
+            rtU.DEG = mpu_data[0].REAL_YAW;
 						
-            tt_y += rtY.YOUT ;//*0.014373;
-            tt_x += rtY.XOUT ;//*0.014373;
-						tt_y_real = tt_y  * 0.014373;
-						tt_x_real = tt_x  * 0.014373;
+            mpu_data[0].Y_tt += rtY.YOUT ;//*0.014373;
+            mpu_data[0].X_tt += rtY.XOUT ;//*0.014373;
+						mpu_data[0].REAL_Y =  mpu_data[0].Y_tt * 0.014373;
+						mpu_data[0].REAL_X  =mpu_data[0].X_tt * 0.014373;
 						// x y yaw
+						
+						
+						
 						if(add >= 50){
-							printf("%f %f %f\r\n",tt_x_real,tt_y_real,mpu_data[0].YAW_ANGLE);
+							printf("%f %f %f\r\n",mpu_data[0].REAL_X,mpu_data[0].REAL_Y,mpu_data[0].REAL_YAW);
 						  add = 0;
 						}
 						

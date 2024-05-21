@@ -22,6 +22,7 @@
 #include "stm32f4xx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "YIS130.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -61,8 +62,13 @@ extern SPI_HandleTypeDef hspi2;
 extern TIM_HandleTypeDef htim11;
 extern TIM_HandleTypeDef htim13;
 extern TIM_HandleTypeDef htim14;
+extern DMA_HandleTypeDef hdma_usart1_rx;
 extern UART_HandleTypeDef huart1;
 /* USER CODE BEGIN EV */
+
+extern uint8_t receive_buff[8];
+
+
 
 /* USER CODE END EV */
 
@@ -284,6 +290,31 @@ void USART1_IRQHandler(void)
   /* USER CODE END USART1_IRQn 0 */
   HAL_UART_IRQHandler(&huart1);
   /* USER CODE BEGIN USART1_IRQn 1 */
+//			if(RESET != __HAL_UART_GET_FLAG(&huart1, UART_FLAG_IDLE))
+//						{
+//									__HAL_UART_CLEAR_IDLEFLAG(&huart1);                   
+//			
+//										HAL_UART_DMAStop(&huart1);
+//										uint8_t data_length  = __HAL_DMA_GET_COUNTER(&hdma_usart1_rx);
+//								
+//						
+//								
+//				
+//								
+//										HAL_UART_Receive_DMA(&huart1,receive_buff,8);
+//							
+//										if(receive_buff[0] == 0x0f && receive_buff[7] == 0xAA){
+//											
+//											
+//											DATARELOAD(receive_buff);
+//                      receive_buff[0] = 0x00;
+
+//                
+//											
+//										}
+//										
+//					
+//							}
 
   /* USER CODE END USART1_IRQn 1 */
 }
@@ -314,6 +345,20 @@ void TIM8_TRG_COM_TIM14_IRQHandler(void)
   /* USER CODE BEGIN TIM8_TRG_COM_TIM14_IRQn 1 */
 
   /* USER CODE END TIM8_TRG_COM_TIM14_IRQn 1 */
+}
+
+/**
+  * @brief This function handles DMA2 stream2 global interrupt.
+  */
+void DMA2_Stream2_IRQHandler(void)
+{
+  /* USER CODE BEGIN DMA2_Stream2_IRQn 0 */
+
+  /* USER CODE END DMA2_Stream2_IRQn 0 */
+  HAL_DMA_IRQHandler(&hdma_usart1_rx);
+  /* USER CODE BEGIN DMA2_Stream2_IRQn 1 */
+
+  /* USER CODE END DMA2_Stream2_IRQn 1 */
 }
 
 /* USER CODE BEGIN 1 */

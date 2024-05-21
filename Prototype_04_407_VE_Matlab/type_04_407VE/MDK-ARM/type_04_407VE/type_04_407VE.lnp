@@ -7,6 +7,7 @@
 "type_04_407ve\main.o"
 "type_04_407ve\gpio.o"
 "type_04_407ve\can.o"
+"type_04_407ve\dma.o"
 "type_04_407ve\spi.o"
 "type_04_407ve\tim.o"
 "type_04_407ve\usart.o"

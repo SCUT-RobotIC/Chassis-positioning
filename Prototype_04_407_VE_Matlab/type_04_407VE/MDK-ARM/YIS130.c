@@ -312,3 +312,20 @@ void SelfCalibration(){
 //	
 //    HAL_CAN_AddTxMessage(&hcan1, &encoder_tx_message, encoder_can_send_data, &send_mail_box);
 //}
+
+
+// receive a list
+
+void DATARELOAD(uint8_t * arr){
+
+// header x_low x_high y y yaw yaw footer
+
+    mpu_data[0].REAL_X = (arr[1] | arr[2] << 8);
+    mpu_data[0].REAL_Y = (arr[3] | arr[4] << 8);
+    mpu_data[0].X_tt  = mpu_data[0].REAL_X / 0.014373;
+    mpu_data[0].Y_tt  = mpu_data[0].REAL_Y / 0.014373;
+
+     mpu_data[0].REAL_YAW_MARK = (arr[5] | arr[6] << 8);
+     mpu_data[0].REAL_YAW_SET = mpu_data[0].YAW_ANGLE;
+
+}

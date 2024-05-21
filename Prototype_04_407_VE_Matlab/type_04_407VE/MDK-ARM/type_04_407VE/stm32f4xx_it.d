@@ -34,3 +34,4 @@ type_04_407ve\stm32f4xx_it.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_
 type_04_407ve\stm32f4xx_it.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
 type_04_407ve\stm32f4xx_it.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
 type_04_407ve\stm32f4xx_it.o: ../Core/Inc/stm32f4xx_it.h
+type_04_407ve\stm32f4xx_it.o: ../MDK-ARM/YIS130.h

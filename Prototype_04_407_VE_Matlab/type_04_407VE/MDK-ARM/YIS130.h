@@ -33,9 +33,16 @@ typedef struct
 		float ACCZ_CALI;
 	float ACCX_FILTER;
 	float ACCY_FILTER;
-		
-	int cali ;
+	  int cali ;
 	
+	 // DATA FROM ENCODER
+	 float REAL_X;
+	 float REAL_Y;
+	 float REAL_YAW;
+	 float REAL_YAW_SET;
+	 float REAL_YAW_MARK;
+	 float X_tt;
+	 float Y_tt;
 	
 } MPU_DATA;
 
@@ -55,6 +62,8 @@ extern float output_vector_data[3];
 void VECTOR_CONVERT();
 
 void SelfCalibration();
+
+void DATARELOAD(uint8_t * arr);
 
 extern float ACCX,ACCY,ACCZ; // ��ߵ�У׼�����Ҫ�ϳ����ܲ���
 void arm_fir_f32_lp(void);

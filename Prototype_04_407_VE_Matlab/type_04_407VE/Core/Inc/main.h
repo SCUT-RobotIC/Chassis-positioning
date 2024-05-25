@@ -63,6 +63,7 @@ void Error_Handler(void);
 #define SPI2_CS_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
+void ClearUARTErrors(USART_TypeDef *);
 
 /* USER CODE END Private defines */
 

@@ -1,13 +1,13 @@
 type_04_407ve\im_test.o: IM_TEST.c
 type_04_407ve\im_test.o: IM_TEST.h
 type_04_407ve\im_test.o: rtwtypes.h
-type_04_407ve\im_test.o: F:\keil\ARM\ARMCC\Bin\..\include\math.h
+type_04_407ve\im_test.o: D:\MDK5.36\ARM\ARMCC\Bin\..\include\math.h
 type_04_407ve\im_test.o: mw_cmsis.h
 type_04_407ve\im_test.o: ../Drivers/CMSIS/DSP/Include/arm_math.h
 type_04_407ve\im_test.o: ../Drivers/CMSIS/Include/core_cm4.h
-type_04_407ve\im_test.o: F:\keil\ARM\ARMCC\Bin\..\include\stdint.h
+type_04_407ve\im_test.o: D:\MDK5.36\ARM\ARMCC\Bin\..\include\stdint.h
 type_04_407ve\im_test.o: ../Drivers/CMSIS/Include/cmsis_version.h
 type_04_407ve\im_test.o: ../Drivers/CMSIS/Include/cmsis_compiler.h
 type_04_407ve\im_test.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
-type_04_407ve\im_test.o: F:\keil\ARM\ARMCC\Bin\..\include\string.h
-type_04_407ve\im_test.o: F:\keil\ARM\ARMCC\Bin\..\include\stddef.h
+type_04_407ve\im_test.o: D:\MDK5.36\ARM\ARMCC\Bin\..\include\string.h
+type_04_407ve\im_test.o: D:\MDK5.36\ARM\ARMCC\Bin\..\include\stddef.h

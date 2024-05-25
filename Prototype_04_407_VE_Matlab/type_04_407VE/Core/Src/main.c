@@ -37,6 +37,7 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
+#define USART_CR3_RXFTIE ((uint32_t)0x00008000)
 
 /* USER CODE END PTD */
 
@@ -100,6 +101,7 @@ UART_HandleTypeDef UART1_Handler;
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
+uint8_t rcv_buf[8]={0};
 
 /* USER CODE END PV */
 
@@ -153,8 +155,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
 	
 //	__HAL_UART_ENABLE_IT(&huart1, UART_IT_IDLE); 
-	HAL_UART_Receive_DMA(&huart1,aRxBuffer1,1);	
-	
+	HAL_UART_Receive_DMA(&huart1,rcv_buf,8);	
 	
 	AS5048_init(1,&hspi1,GPIOA,GPIO_PIN_4);
 	AS5048_init(2,&hspi2,GPIOB,GPIO_PIN_12);
@@ -193,8 +194,6 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	
-
 
   }
   /* USER CODE END 3 */
@@ -246,39 +245,44 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
-{
-			while  (huart->Instance == USART1)
-		{
-			
-				USART1_RX_BUF[USART1_RX_STA] = aRxBuffer1[0];
-				if (USART1_RX_STA == 0 && USART1_RX_BUF[USART1_RX_STA] != 0x0F) 	
-				{			
-					HAL_UART_Receive_DMA(&huart1,aRxBuffer1,1);	
-					break; //
-				}
-				USART1_RX_STA++;
-			HAL_UART_Receive_DMA(&huart1,aRxBuffer1,1);
-			if (USART1_RX_STA > 100) USART1_RX_STA = 0;  //
-			if (USART1_RX_BUF[0] == 0x0F && USART1_RX_BUF[7] == 0xAA && USART1_RX_STA == 8)	//检测包头包尾以及数据包长度
-			{
-				DATARELOAD(USART1_RX_BUF);
-				receivefactor[1]=1;
-				
+//void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+//{
+//			while  (huart->Instance == USART1)
+//		{
+//				USART1_RX_BUF[USART1_RX_STA] = aRxBuffer1[0];
+//				if (USART1_RX_STA == 0 && USART1_RX_BUF[USART1_RX_STA] != 0x0F) 	
+//				{			
+//					HAL_UART_Receive_DMA(&huart1,aRxBuffer1,1);	
+//					break; //
+//				}
+//				USART1_RX_STA++;
+//			HAL_UART_Receive_DMA(&huart1,aRxBuffer1,1);
+//			if (USART1_RX_STA > 100) USART1_RX_STA = 0;  //
+//			if (USART1_RX_BUF[0] == 0x0F && USART1_RX_BUF[7] == 0xAA && USART1_RX_STA == 8)	//检测包头包尾以及数据包长度
+//			{
+//				DATARELOAD(USART1_RX_BUF);
+//				receivefactor[1]=1;
+//				USART1_RX_STA = 0;
+//			}
+//			else if(!(USART1_RX_BUF[0] == 0x0F && USART1_RX_BUF[7] == 0xAA) && USART1_RX_STA == 8){
+//				for(int i=0;i<8;i++)
+//					USART1_RX_BUF[i] = 0;
+//				USART1_RX_STA = 0;
+//			}
+//			break;
+//		}
+//}
 
-				USART1_RX_STA = 0;
-			}
-			else if(!(USART1_RX_BUF[0] == 0x0F && USART1_RX_BUF[7] == 0xAA) && USART1_RX_STA == 8){
-				for(int i=0;i<8;i++)
-					USART1_RX_BUF[i] = 0;
-				USART1_RX_STA = 0;
-			}
-
-			break;
-			
+//因为只需要接收8字节数据，所以lw把接收函数改了一下
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
+	if(huart->Instance == USART1){
+		if(0x0F==rcv_buf[0]&&0xAA==rcv_buf[7]){
+			DATARELOAD(rcv_buf);
 		}
-		
-
+		for(int i=0;i<8;i++){
+			rcv_buf[i]=0;
+		}
+	}
 }
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
@@ -294,7 +298,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		
 		if (htim == (&htim13)){
 			 		 
-
     
 //			arm_fir_f32_lp();
 		 }
@@ -333,6 +336,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 						
 						
 						if(add >= 50){
+							ClearUARTErrors(USART1);//清除串口错误标志
 							printf("%f %f %f\r\n",mpu_data[0].REAL_X,mpu_data[0].REAL_Y,mpu_data[0].REAL_YAW);
 						  add = 0;
 						}
@@ -357,6 +361,33 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 			 
 		 }
 		}
+}
+
+void ClearUARTErrors(USART_TypeDef *USARTx) {
+    // 清除奇偶校验错误
+    if (USARTx->SR & USART_SR_PE) {
+        (void)USARTx->DR;
+    }
+    // 清除帧错误
+    if (USARTx->SR & USART_SR_FE) {
+        (void)USARTx->DR;
+    }
+    // 清除 noise error
+    if (USARTx->SR & USART_SR_NE) {
+        (void)USARTx->DR;
+    }
+    // 清除 overrun error
+    if (USARTx->SR & USART_SR_ORE) {
+        (void)USARTx->DR;
+    }
+    // 重新使能串口
+    USARTx->CR1 |= USART_CR1_UE;
+    // 重新使能错误中断
+    USARTx->CR3 |= USART_CR3_EIE;
+    // 重新使能接收超过FIFO阈值中断
+    USARTx->CR3 |= USART_CR3_RXFTIE;
+		// 重新打开串口接收
+		HAL_UART_Receive_DMA(&huart1,rcv_buf,8);
 }
 
 /* USER CODE END 4 */

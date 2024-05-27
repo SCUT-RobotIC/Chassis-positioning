@@ -60,19 +60,13 @@ extern float ACCX,ACCY,ACCZ;
 //float tt_y_real = 0;
 
 
-
 int add = 0;
 int times = 0;
-int fputc(int ch, FILE *f)
- 
-{
- 
-  HAL_UART_Transmit(&huart1, (uint8_t *)&ch, 1, 0xffff);
- 
-  return ch;
- 
-}
 
+int fputc(int ch, FILE *f){
+  HAL_UART_Transmit(&huart1, (uint8_t *)&ch, 1, 0xffff);
+  return ch;
+}
 
 typedef struct struct_message
 {
@@ -84,7 +78,6 @@ typedef struct struct_message
 
 DataPacket DataRe;
 uint8_t USART_FLAG = 0;
-
 
 
 uint8_t USART1_RX_BUF[100]; 
@@ -102,6 +95,7 @@ UART_HandleTypeDef UART1_Handler;
 
 /* USER CODE BEGIN PV */
 uint8_t rcv_buf[8]={0};
+int rcv_err = 1;
 
 /* USER CODE END PV */
 
@@ -278,6 +272,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
 	if(huart->Instance == USART1){
 		if(0x0F==rcv_buf[0]&&0xAA==rcv_buf[7]){
 			DATARELOAD(rcv_buf);
+			rcv_err = 0;
 		}
 		for(int i=0;i<8;i++){
 			rcv_buf[i]=0;
@@ -288,13 +283,15 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
     if (htim == (&htim14)){
-			ClearUARTErrors(USART1);//清除串口错误标志
+			if(0!=rcv_err){
+				ClearUARTErrors(USART1);//清除串口错误标志
+			}
 			
     }
 		
 		if (htim == (&htim13)){
-			 		 
 //			arm_fir_f32_lp();
+			
 		 }
 		 
 		 if (htim == (&htim11)){
@@ -345,11 +342,9 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 				    mpu_data[0].vel[1] = 0;
 						times ++ ;
 					}
-				
-  				
+
 				IM_TEST_step();
-			 
-			 
+			 			 
 		 }
 		}
 }

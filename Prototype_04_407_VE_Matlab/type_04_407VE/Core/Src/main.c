@@ -287,18 +287,13 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-    
-		
-    if (htim == (&htim14))
-    {
+    if (htim == (&htim14)){
+			ClearUARTErrors(USART1);//清除串口错误标志
 			
-			
-
     }
 		
 		if (htim == (&htim13)){
 			 		 
-    
 //			arm_fir_f32_lp();
 		 }
 		 
@@ -320,7 +315,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 						AS5048_dataUpdate(2);	
 				//		HAL_Delay(1);
 						
-						
 						mpu_data[0].REAL_YAW = mpu_data[0].YAW_ANGLE -mpu_data[0].REAL_YAW_SET + mpu_data[0].REAL_YAW_MARK ;
 
             rtU.W1 = -AS5048s[1].delta_dis;
@@ -333,10 +327,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 						mpu_data[0].REAL_X  =mpu_data[0].X_tt * 0.014373;
 						// x y yaw
 						
-						
-						
 						if(add >= 50){
-							ClearUARTErrors(USART1);//清除串口错误标志
 							printf("%f %f %f\r\n",mpu_data[0].REAL_X,mpu_data[0].REAL_Y,mpu_data[0].REAL_YAW);
 						  add = 0;
 						}

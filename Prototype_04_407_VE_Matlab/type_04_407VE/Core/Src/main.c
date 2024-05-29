@@ -313,8 +313,21 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 						AS5048_dataUpdate(2);	
 				//		HAL_Delay(1);
 						
-						mpu_data[0].REAL_YAW = mpu_data[0].YAW_ANGLE - mpu_data[0].REAL_YAW_SET + mpu_data[0].REAL_YAW_MARK ;
+			
+						float temp_zero = mpu_data[0].REAL_YAW_SET - 180 - (180 - mpu_data[0].REAL_YAW_MARK);
+						if(temp_zero < 0){ temp_zero += 360; };
+//						float temp_180  = temp_zero - 180 ; 
+//						if(temp_180 < 0){ temp_180 += 360; };
 
+            if(mpu_data[0].YAW_ANGLE >= 0 && mpu_data[0].YAW_ANGLE < temp_zero){
+              mpu_data[0].REAL_YAW = 360 - (temp_zero - mpu_data[0].YAW_ANGLE);
+            }
+            else if(mpu_data[0].YAW_ANGLE >= temp_zero ){
+              mpu_data[0].REAL_YAW = mpu_data[0].YAW_ANGLE - temp_zero;
+            }
+           
+						
+						
             rtU.W1 = -AS5048s[1].delta_dis;
             rtU.W2 = AS5048s[0].delta_dis;
             rtU.DEG = mpu_data[0].REAL_YAW;

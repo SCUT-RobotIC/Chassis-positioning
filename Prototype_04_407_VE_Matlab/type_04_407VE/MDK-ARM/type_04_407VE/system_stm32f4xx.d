@@ -2,7 +2,7 @@ type_04_407ve\system_stm32f4xx.o: ../Core/Src/system_stm32f4xx.c
 type_04_407ve\system_stm32f4xx.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h
 type_04_407ve\system_stm32f4xx.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h
 type_04_407ve\system_stm32f4xx.o: ../Drivers/CMSIS/Include/core_cm4.h
-type_04_407ve\system_stm32f4xx.o: D:\MDK5.36\ARM\ARMCC\Bin\..\include\stdint.h
+type_04_407ve\system_stm32f4xx.o: F:\keil\ARM\ARMCC\Bin\..\include\stdint.h
 type_04_407ve\system_stm32f4xx.o: ../Drivers/CMSIS/Include/cmsis_version.h
 type_04_407ve\system_stm32f4xx.o: ../Drivers/CMSIS/Include/cmsis_compiler.h
 type_04_407ve\system_stm32f4xx.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
@@ -14,7 +14,7 @@ type_04_407ve\system_stm32f4xx.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_
 type_04_407ve\system_stm32f4xx.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h
 type_04_407ve\system_stm32f4xx.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h
 type_04_407ve\system_stm32f4xx.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
-type_04_407ve\system_stm32f4xx.o: D:\MDK5.36\ARM\ARMCC\Bin\..\include\stddef.h
+type_04_407ve\system_stm32f4xx.o: F:\keil\ARM\ARMCC\Bin\..\include\stddef.h
 type_04_407ve\system_stm32f4xx.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc_ex.h
 type_04_407ve\system_stm32f4xx.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h
 type_04_407ve\system_stm32f4xx.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio_ex.h

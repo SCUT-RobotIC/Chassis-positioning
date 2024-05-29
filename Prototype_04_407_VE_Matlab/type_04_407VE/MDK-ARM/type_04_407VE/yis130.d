@@ -1,6 +1,6 @@
 type_04_407ve\yis130.o: YIS130.c
 type_04_407ve\yis130.o: YIS130.h
-type_04_407ve\yis130.o: D:\MDK5.36\ARM\ARMCC\Bin\..\include\stdint.h
+type_04_407ve\yis130.o: F:\keil\ARM\ARMCC\Bin\..\include\stdint.h
 type_04_407ve\yis130.o: ../Core/Inc/main.h
 type_04_407ve\yis130.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h
 type_04_407ve\yis130.o: ../Core/Inc/stm32f4xx_hal_conf.h
@@ -16,7 +16,7 @@ type_04_407ve\yis130.o: ../Drivers/CMSIS/Include/mpu_armv7.h
 type_04_407ve\yis130.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h
 type_04_407ve\yis130.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h
 type_04_407ve\yis130.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
-type_04_407ve\yis130.o: D:\MDK5.36\ARM\ARMCC\Bin\..\include\stddef.h
+type_04_407ve\yis130.o: F:\keil\ARM\ARMCC\Bin\..\include\stddef.h
 type_04_407ve\yis130.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc_ex.h
 type_04_407ve\yis130.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h
 type_04_407ve\yis130.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio_ex.h
@@ -36,5 +36,5 @@ type_04_407ve\yis130.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex
 type_04_407ve\yis130.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
 type_04_407ve\yis130.o: ../Drivers/CMSIS/DSP/Include/arm_math.h
 type_04_407ve\yis130.o: ../Drivers/CMSIS/Include/core_cm4.h
-type_04_407ve\yis130.o: D:\MDK5.36\ARM\ARMCC\Bin\..\include\string.h
-type_04_407ve\yis130.o: D:\MDK5.36\ARM\ARMCC\Bin\..\include\math.h
+type_04_407ve\yis130.o: F:\keil\ARM\ARMCC\Bin\..\include\string.h
+type_04_407ve\yis130.o: F:\keil\ARM\ARMCC\Bin\..\include\math.h

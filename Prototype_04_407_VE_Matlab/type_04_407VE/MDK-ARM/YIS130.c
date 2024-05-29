@@ -77,9 +77,9 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 
     HAL_CAN_GetRxMessage(hcan, CAN_RX_FIFO0, &rx_header, rx_data);
 		
-	  uint16_t pitch_raw;
-	  uint16_t roll_raw; 
-	  uint16_t yaw_raw;
+	  float pitch_raw;
+	  float roll_raw; 
+	  float yaw_raw;
     switch (rx_header.ExtId)
     {
 				
@@ -153,17 +153,28 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 //            break;
 				
 				
-					 pitch_raw= ((uint16_t)rx_data[1] << 8) | rx_data[0];
-					 roll_raw = ((uint16_t)rx_data[3] << 8) | rx_data[2];
-					 yaw_raw = ((uint16_t)rx_data[5] << 8) | rx_data[4];
+					 pitch_raw= (float)(((uint16_t)rx_data[1] << 8) | rx_data[0]);
+					 roll_raw = (float)(((uint16_t)rx_data[3] << 8) | rx_data[2]);
+					 yaw_raw = (float)(((uint16_t)rx_data[5] << 8) | rx_data[4]);
 //				
 
 
 //					
             mpu_data[0].PITCH_ANGLE =  (float)pitch_raw * 0.0078125 - 250 ; // Y
+						if(mpu_data[0].PITCH_ANGLE < 0){
+						mpu_data[0].PITCH_ANGLE += 360;
+						
+						}
             mpu_data[0].ROLL_ANGLE = (float)roll_raw * 0.0078125 - 250; // X
-            mpu_data[0].YAW_ANGLE= (float)yaw_raw * 0.0078125 - 250; //Z
-				
+						if(mpu_data[0].ROLL_ANGLE  < 0){
+							mpu_data[0].ROLL_ANGLE  += 360;
+							
+							}
+						mpu_data[0].YAW_ANGLE= (float)yaw_raw * 0.0078125 - 250; //Z
+						if(mpu_data[0].YAW_ANGLE < 0){
+							mpu_data[0].YAW_ANGLE += 360;
+							
+							}
 //			     mpu_data[0].PITCH_ANGLE =  asin(-2 * mpu_data[0].quat[1] * mpu_data[0].quat[3] + 2 * mpu_data[0].quat[0]* mpu_data[0].quat[2])* 57.3; 	
 //					mpu_data[0].ROLL_ANGLE = atan2(2 * mpu_data[0].quat[2] * mpu_data[0].quat[3] + 2 * mpu_data[0].quat[0] * mpu_data[0].quat[1], -2 * mpu_data[0].quat[1] * mpu_data[0].quat[1] - 2 * mpu_data[0].quat[2]* mpu_data[0].quat[2] + 1)* 57.3; 
 //					mpu_data[0].YAW_ANGLE= atan2(2 * (mpu_data[0].quat[1]*mpu_data[0].quat[2] + mpu_data[0].quat[0]*mpu_data[0].quat[3]),mpu_data[0].quat[0]*mpu_data[0].quat[0]+mpu_data[0].quat[1]*mpu_data[0].quat[1]-mpu_data[0].quat[2]*mpu_data[0].quat[2]-mpu_data[0].quat[3]*mpu_data[0].quat[3])*57.3;//yaw
@@ -335,6 +346,8 @@ void DATARELOAD(uint8_t * arr){
 		}else{
 			mpu_data[0].REAL_X = (arr[1] | arr[2] << 8);
 		}
+	
+	///////////////////////////
 		
 		if(arr[3]==0x00&&arr[4]==0x00){
 			mpu_data[0].REAL_Y = 0;
@@ -351,6 +364,7 @@ void DATARELOAD(uint8_t * arr){
 			mpu_data[0].REAL_Y = (arr[3] | arr[4] << 8);
 		}
 		
+
 		if(arr[5]==0x00&&arr[6]==0x00){
 			mpu_data[0].REAL_YAW_MARK = 0;
 		}

@@ -95,7 +95,7 @@ UART_HandleTypeDef UART1_Handler;
 
 /* USER CODE BEGIN PV */
 uint8_t rcv_buf[8]={0};
-int rcv_err = 1;
+int rcv_err = 3;
 
 /* USER CODE END PV */
 
@@ -157,7 +157,7 @@ int main(void)
 	mpu_data[0].cali = 1; // �Ȳ���
 	mpu_data[0].vel[0] = 0;
 	mpu_data[0].vel[1] = 0;
-   mpu_data[0].REAL_YAW_SET = 0 ;
+   mpu_data[0].REAL_YAW_SET = 0;
 	 mpu_data[0].REAL_YAW_MARK = 0;
 		
 	can_filter_init();
@@ -272,7 +272,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
 	if(huart->Instance == USART1){
 		if(0x0F==rcv_buf[0]&&0xAA==rcv_buf[7]){
 			DATARELOAD(rcv_buf);
-			rcv_err = 0;
+			if(rcv_err>0) rcv_err --;
 		}
 		for(int i=0;i<8;i++){
 			rcv_buf[i]=0;
@@ -283,7 +283,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
     if (htim == (&htim14)){
-			if(0!=rcv_err){
+			if(rcv_err>0){
 				ClearUARTErrors(USART1);//清除串口错误标志
 			}
 			

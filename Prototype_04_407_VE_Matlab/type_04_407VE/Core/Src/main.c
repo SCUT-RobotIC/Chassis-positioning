@@ -96,6 +96,7 @@ UART_HandleTypeDef UART1_Handler;
 /* USER CODE BEGIN PV */
 uint8_t rcv_buf[8]={0};
 int rcv_err = 3;
+uint8_t *prcv = rcv_buf;
 
 /* USER CODE END PV */
 

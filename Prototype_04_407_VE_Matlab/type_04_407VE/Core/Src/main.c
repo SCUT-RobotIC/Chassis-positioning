@@ -284,9 +284,9 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
     if (htim == (&htim14)){
-			if(rcv_err>0){
+			//if(rcv_err>0){
 				ClearUARTErrors(USART1);//清除串口错误标志
-			}
+			//}
 			
     }
 		
@@ -313,7 +313,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 						AS5048_dataUpdate(2);	
 				//		HAL_Delay(1);
 						
-						mpu_data[0].REAL_YAW = mpu_data[0].YAW_ANGLE -mpu_data[0].REAL_YAW_SET + mpu_data[0].REAL_YAW_MARK ;
+						mpu_data[0].REAL_YAW = mpu_data[0].YAW_ANGLE - mpu_data[0].REAL_YAW_SET + mpu_data[0].REAL_YAW_MARK ;
 
             rtU.W1 = -AS5048s[1].delta_dis;
             rtU.W2 = AS5048s[0].delta_dis;

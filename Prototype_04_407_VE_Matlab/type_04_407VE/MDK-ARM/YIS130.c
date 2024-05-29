@@ -320,8 +320,11 @@ void DATARELOAD(uint8_t * arr){
 
 // header x_low x_high y y yaw yaw footer
 		uint16_t temp[3] = {0};
-	
-		if((arr[2]&0x80)==0x80)//负数
+		
+		if(arr[1]==0x00&&arr[2]==0x00){
+			mpu_data[0].REAL_X = 0;
+		}
+		else if((arr[2]&0x80)==0x80)//负数
 		{
 			temp[0] = arr[2];
 			temp[0] = temp[0] << 8;
@@ -333,7 +336,10 @@ void DATARELOAD(uint8_t * arr){
 			mpu_data[0].REAL_X = (arr[1] | arr[2] << 8);
 		}
 		
-		if((arr[4]&0x80)==0x80)//负数
+		if(arr[3]==0x00&&arr[4]==0x00){
+			mpu_data[0].REAL_Y = 0;
+		}
+		else if((arr[4]&0x80)==0x80)//负数
 		{
 			temp[1] = arr[4];
 			temp[1] = temp[1] << 8;
@@ -344,8 +350,11 @@ void DATARELOAD(uint8_t * arr){
 		}else{
 			mpu_data[0].REAL_Y = (arr[3] | arr[4] << 8);
 		}
-
-		if((arr[6]&0x80)==0x80)//负数
+		
+		if(arr[5]==0x00&&arr[6]==0x00){
+			mpu_data[0].REAL_YAW_MARK = 0;
+		}
+		else if((arr[6]&0x80)==0x80)//负数
 		{
 			temp[2] = arr[6];
 			temp[2] = temp[2] << 8;

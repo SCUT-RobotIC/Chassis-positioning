@@ -27,6 +27,22 @@ Project File Date:  05/27/2024
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'D:\MDK5.36\ARM\ARMCC\Bin'
 Build target 'type_04_407VE'
+compiling main.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(51): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+../MDK-ARM/YIS130.h(52): warning:  #1295-D: Deprecated declaration CAN_CMD_ENCODER - give arg types
+  void CAN_CMD_ENCODER();
+../MDK-ARM/YIS130.h(62): warning:  #1295-D: Deprecated declaration VECTOR_CONVERT - give arg types
+  void VECTOR_CONVERT();
+../MDK-ARM/YIS130.h(64): warning:  #1295-D: Deprecated declaration SelfCalibration - give arg types
+  void SelfCalibration();
+../MDK-ARM/AS5048.h(56): warning:  #1-D: last line of file ends without a newline
+  #endif
+../Core/Src/main.c(324): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  						mpu_data[0].REAL_Y =  mpu_data[0].Y_tt * 0.014373;
+../Core/Src/main.c(325): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  						mpu_data[0].REAL_X  =mpu_data[0].X_tt * 0.014373;
+../Core/Src/main.c: 7 warnings, 0 errors
 compiling YIS130.c...
 YIS130.h(52): warning:  #1295-D: Deprecated declaration CAN_CMD_ENCODER - give arg types
   void CAN_CMD_ENCODER();
@@ -64,11 +80,11 @@ YIS130.c(164): warning:  #1035-D: single-precision operand implicitly converted 
               mpu_data[0].ROLL_ANGLE = (float)roll_raw * 0.0078125 - 250; // X
 YIS130.c(165): warning:  #1035-D: single-precision operand implicitly converted to double-precision
               mpu_data[0].YAW_ANGLE= (float)yaw_raw * 0.0078125 - 250; //Z
-YIS130.c(362): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+YIS130.c(371): warning:  #1035-D: single-precision operand implicitly converted to double-precision
       mpu_data[0].X_tt  = mpu_data[0].REAL_X / 0.014373;
-YIS130.c(363): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+YIS130.c(372): warning:  #1035-D: single-precision operand implicitly converted to double-precision
       mpu_data[0].Y_tt  = mpu_data[0].REAL_Y / 0.014373;
-YIS130.c(368): warning:  #1-D: last line of file ends without a newline
+YIS130.c(377): warning:  #1-D: last line of file ends without a newline
   }
 YIS130.c(40): warning:  #177-D: variable "encoder_tx_message"  was declared but never referenced
   static CAN_TxHeaderTypeDef  encoder_tx_message;
@@ -76,9 +92,9 @@ YIS130.c(41): warning:  #177-D: variable "encoder_can_send_data"  was declared b
   static uint8_t         encoder_can_send_data[4];
 YIS130.c: 23 warnings, 0 errors
 linking...
-Program Size: Code=23880 RO-data=2636 RW-data=152 ZI-data=37576  
+Program Size: Code=23932 RO-data=2636 RW-data=152 ZI-data=37576  
 FromELF: creating hex file...
-"type_04_407VE\type_04_407VE.axf" - 0 Error(s), 23 Warning(s).
+"type_04_407VE\type_04_407VE.axf" - 0 Error(s), 30 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -102,7 +118,7 @@ Package Vendor: Keil
 
    * Component: ARM::CMSIS:CORE:5.5.0
       Include file:  CMSIS\Core\Include\tz_context.h
-Build Time Elapsed:  00:00:03
+Build Time Elapsed:  00:00:06
 </pre>
 </body>
 </html>

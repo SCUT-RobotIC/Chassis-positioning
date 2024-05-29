@@ -326,6 +326,10 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
               mpu_data[0].REAL_YAW = mpu_data[0].YAW_ANGLE - temp_zero;
             }
            
+						if(mpu_data[0].REAL_YAW > 180 ){
+							
+							mpu_data[0].REAL_YAW =  mpu_data[0].REAL_YAW - 360;
+						}
 						
 						
             rtU.W1 = -AS5048s[1].delta_dis;

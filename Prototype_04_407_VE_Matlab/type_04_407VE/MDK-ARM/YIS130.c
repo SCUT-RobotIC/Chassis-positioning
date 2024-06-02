@@ -319,7 +319,7 @@ void SelfCalibration(){
 void DATARELOAD(uint8_t * arr){
 
 // header x_low x_high y y yaw yaw footer
-		uint16_t temp[3] = {0};
+		uint16_t temp[2] = {0};
 		
 		if(arr[1]==0x00&&arr[2]==0x00){
 			mpu_data[0].REAL_X = 0;
@@ -351,20 +351,20 @@ void DATARELOAD(uint8_t * arr){
 			mpu_data[0].REAL_Y = (arr[3] | arr[4] << 8);
 		}
 		
-		if(arr[5]==0x00&&arr[6]==0x00){
-			mpu_data[0].REAL_YAW_MARK = 0;
-		}
-		else if((arr[6]&0x80)==0x80)//负数
-		{
-			temp[2] = arr[6];
-			temp[2] = temp[2] << 8;
-			temp[2] += arr[5];
-			temp[2] -= 1;
-			temp[2] = ~temp[2];
-			mpu_data[0].REAL_YAW_MARK = 0-temp[2];
-		}else{
-			mpu_data[0].REAL_YAW_MARK = (arr[5] | arr[6] << 8);
-		}
+//		if(arr[5]==0x00&&arr[6]==0x00){
+//			mpu_data[0].REAL_YAW_MARK = 0;
+//		}
+//		else if((arr[6]&0x80)==0x80)//负数
+//		{
+//			temp[2] = arr[6];
+//			temp[2] = temp[2] << 8;
+//			temp[2] += arr[5];
+//			temp[2] -= 1;
+//			temp[2] = ~temp[2];
+//			mpu_data[0].REAL_YAW_MARK = 0-temp[2];
+//		}else{
+//			mpu_data[0].REAL_YAW_MARK = (arr[5] | arr[6] << 8);
+//		}
 		
 //    mpu_data[0].REAL_X = (arr[1] | arr[2] << 8);
 //    mpu_data[0].REAL_Y = (arr[3] | arr[4] << 8);
@@ -372,6 +372,6 @@ void DATARELOAD(uint8_t * arr){
     mpu_data[0].Y_tt  = mpu_data[0].REAL_Y / 0.014373;
 
 //     mpu_data[0].REAL_YAW_MARK = (arr[5] | arr[6] << 8);
-     mpu_data[0].REAL_YAW_SET = mpu_data[0].YAW_ANGLE;
+//     mpu_data[0].REAL_YAW_SET = mpu_data[0].YAW_ANGLE;
 
 }

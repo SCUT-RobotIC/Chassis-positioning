@@ -64,6 +64,8 @@ void Error_Handler(void);
 
 /* USER CODE BEGIN Private defines */
 void ClearUARTErrors(USART_TypeDef *);
+void Rcv_IdleCallback(void);
+int Rcv_DealData(void);
 
 /* USER CODE END Private defines */
 

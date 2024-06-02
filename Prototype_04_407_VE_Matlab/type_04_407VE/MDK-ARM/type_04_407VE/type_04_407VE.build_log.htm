@@ -17,12 +17,12 @@ Library Manager: ArmAr.exe V5.06 update 7 (build 960)
 Hex Converter:   FromElf.exe V5.06 update 7 (build 960)
 CPU DLL:         SARMCM3.DLL V5.36.0.0
 Dialog DLL:      DCM.DLL V1.17.3.0
-Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.0.9.0
+Target DLL:      CMSIS_AGDI.dll V1.33.0.0
 Dialog DLL:      TCM.DLL V1.53.0.0
  
 <h2>Project:</h2>
 E:\RobotIC\CP\Chassis-positioning\Prototype_04_407_VE_Matlab\type_04_407VE\MDK-ARM\type_04_407VE.uvprojx
-Project File Date:  05/27/2024
+Project File Date:  06/02/2024
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'D:\MDK5.36\ARM\ARMCC\Bin'
@@ -38,63 +38,15 @@ compiling main.c...
   void SelfCalibration();
 ../MDK-ARM/AS5048.h(56): warning:  #1-D: last line of file ends without a newline
   #endif
-../Core/Src/main.c(324): warning:  #1035-D: single-precision operand implicitly converted to double-precision
-  						mpu_data[0].REAL_Y =  mpu_data[0].Y_tt * 0.014373;
-../Core/Src/main.c(325): warning:  #1035-D: single-precision operand implicitly converted to double-precision
-  						mpu_data[0].REAL_X  =mpu_data[0].X_tt * 0.014373;
+../Core/Src/main.c(358): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  						mpu_data[0].REAL_Y = mpu_data[0].Y_tt * 0.014373;
+../Core/Src/main.c(359): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  						mpu_data[0].REAL_X = mpu_data[0].X_tt * 0.014373;
 ../Core/Src/main.c: 7 warnings, 0 errors
-compiling YIS130.c...
-YIS130.h(52): warning:  #1295-D: Deprecated declaration CAN_CMD_ENCODER - give arg types
-  void CAN_CMD_ENCODER();
-YIS130.h(62): warning:  #1295-D: Deprecated declaration VECTOR_CONVERT - give arg types
-  void VECTOR_CONVERT();
-YIS130.h(64): warning:  #1295-D: Deprecated declaration SelfCalibration - give arg types
-  void SelfCalibration();
-../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(51): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
-  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
-YIS130.c(98): warning:  #1035-D: single-precision operand implicitly converted to double-precision
-              mpu_data[0].acc[0] = ((float)(rx_data[1] << 8 | rx_data[0]))* 0.01 -320; //X Y Z
-YIS130.c(99): warning:  #1035-D: single-precision operand implicitly converted to double-precision
-              mpu_data[0].acc[1] = ((float)(rx_data[3] << 8 | rx_data[2]))* 0.01 -320;   
-YIS130.c(100): warning:  #1035-D: single-precision operand implicitly converted to double-precision
-              mpu_data[0].acc[2] = ((float)(rx_data[5] << 8 | rx_data[4]))* 0.01 -320;
-YIS130.c(131): warning:  #1035-D: single-precision operand implicitly converted to double-precision
-  						 mpu_data[0].gyro[0] = (float)((((uint32_t)(rx_data[2]&0x0F) << 16) | ((uint32_t)rx_data[1] << 8) | rx_data[0])     )* 0.0078125 - 4000;
-YIS130.c(133): warning:  #1035-D: single-precision operand implicitly converted to double-precision
-  						 mpu_data[0].gyro[1]=  (float)(((uint32_t)(rx_data[4])<< 12) | ((uint32_t)rx_data[3] << 4) | ((rx_data[2]&0xF0)>> 4))* 0.0078125 - 4000;
-YIS130.c(135): warning:  #1035-D: single-precision operand implicitly converted to double-precision
-  						 mpu_data[0].gyro[2] = (float)((((uint32_t)(rx_data[7]&0x0F) << 16) | ((uint32_t)rx_data[6] << 8) | rx_data[5] ))    * 0.0078125 - 4000;
-YIS130.c(140): warning:  #1035-D: single-precision operand implicitly converted to double-precision
-              mpu_data[0].quat[0] = ((float)(((rx_data[1] << 8) | rx_data[0])))* 3.0519E-005 - 1;  // w
-YIS130.c(141): warning:  #1035-D: single-precision operand implicitly converted to double-precision
-              mpu_data[0].quat[1] = ((float)(((rx_data[3] << 8) | rx_data[2])))* 3.0519E-005 - 1;    // x
-YIS130.c(142): warning:  #1035-D: single-precision operand implicitly converted to double-precision
-              mpu_data[0].quat[2] = ((float)(((rx_data[5] << 8) | rx_data[4])))* 3.0519E-005 - 1;    //y  
-YIS130.c(143): warning:  #1035-D: single-precision operand implicitly converted to double-precision
-  						mpu_data[0].quat[3] = ((float)(((rx_data[7] << 8) | rx_data[6])))* 3.0519E-005 - 1; // z
-YIS130.c(147): warning:  #111-D: statement is unreachable
-              break;
-YIS130.c(163): warning:  #1035-D: single-precision operand implicitly converted to double-precision
-              mpu_data[0].PITCH_ANGLE =  (float)pitch_raw * 0.0078125 - 250 ; // Y
-YIS130.c(164): warning:  #1035-D: single-precision operand implicitly converted to double-precision
-              mpu_data[0].ROLL_ANGLE = (float)roll_raw * 0.0078125 - 250; // X
-YIS130.c(165): warning:  #1035-D: single-precision operand implicitly converted to double-precision
-              mpu_data[0].YAW_ANGLE= (float)yaw_raw * 0.0078125 - 250; //Z
-YIS130.c(371): warning:  #1035-D: single-precision operand implicitly converted to double-precision
-      mpu_data[0].X_tt  = mpu_data[0].REAL_X / 0.014373;
-YIS130.c(372): warning:  #1035-D: single-precision operand implicitly converted to double-precision
-      mpu_data[0].Y_tt  = mpu_data[0].REAL_Y / 0.014373;
-YIS130.c(377): warning:  #1-D: last line of file ends without a newline
-  }
-YIS130.c(40): warning:  #177-D: variable "encoder_tx_message"  was declared but never referenced
-  static CAN_TxHeaderTypeDef  encoder_tx_message;
-YIS130.c(41): warning:  #177-D: variable "encoder_can_send_data"  was declared but never referenced
-  static uint8_t         encoder_can_send_data[4];
-YIS130.c: 23 warnings, 0 errors
 linking...
-Program Size: Code=23932 RO-data=2636 RW-data=152 ZI-data=37576  
+Program Size: Code=23932 RO-data=2636 RW-data=144 ZI-data=38232  
 FromELF: creating hex file...
-"type_04_407VE\type_04_407VE.axf" - 0 Error(s), 30 Warning(s).
+"type_04_407VE\type_04_407VE.axf" - 0 Error(s), 7 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -118,7 +70,7 @@ Package Vendor: Keil
 
    * Component: ARM::CMSIS:CORE:5.5.0
       Include file:  CMSIS\Core\Include\tz_context.h
-Build Time Elapsed:  00:00:06
+Build Time Elapsed:  00:00:02
 </pre>
 </body>
 </html>

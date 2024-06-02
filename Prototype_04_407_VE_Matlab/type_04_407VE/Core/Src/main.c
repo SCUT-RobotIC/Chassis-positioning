@@ -64,6 +64,7 @@ int add = 0;
 int times = 0;
 
 int fputc(int ch, FILE *f){
+	//HAL_UART_Transmit_DMA(&huart1, (uint8_t *)&ch, 1);
   HAL_UART_Transmit(&huart1, (uint8_t *)&ch, 1, 0xffff);
   return ch;
 }
@@ -94,9 +95,11 @@ UART_HandleTypeDef UART1_Handler;
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-uint8_t rcv_buf[8]={0};
+uint8_t rcv_buf[64] = {0};
 int rcv_err = 3;
-uint8_t *prcv = rcv_buf;
+char mpu_buff[64];
+uint16_t rxclear = 0;
+int rcv_flag = 0;
 
 /* USER CODE END PV */
 
@@ -149,8 +152,8 @@ int main(void)
   MX_SPI2_Init();
   /* USER CODE BEGIN 2 */
 	
-//	__HAL_UART_ENABLE_IT(&huart1, UART_IT_IDLE); 
-	HAL_UART_Receive_DMA(&huart1,rcv_buf,8);	
+	__HAL_UART_ENABLE_IT(&huart1, UART_IT_IDLE); 
+	HAL_UART_Receive_DMA(&huart1, rcv_buf, 8);	
 	
 	AS5048_init(1,&hspi1,GPIOA,GPIO_PIN_4);
 	AS5048_init(2,&hspi2,GPIOB,GPIO_PIN_12);
@@ -240,7 +243,7 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-//void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+//void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) //已弃用
 //{
 //			while  (huart->Instance == USART1)
 //		{
@@ -268,16 +271,47 @@ void SystemClock_Config(void)
 //		}
 //}
 
-//因为只需要接收8字节数据，所以lw把接收函数改了一下
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
-	if(huart->Instance == USART1){
+//因为只需要接收8字节数据，所以lw把接收函数改了一下  0602更新后不再使用
+//void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
+//	if(huart->Instance == USART1){
+//		if(0x0F==rcv_buf[0]&&0xAA==rcv_buf[7]){
+//			DATARELOAD(rcv_buf);
+//			if(rcv_err>0) rcv_err --;
+//		}
+//		for(int i=0;i<8;i++){
+//			rcv_buf[i]=0;
+//		}
+//	}
+//}
+
+//0602更新 DMA+空闲中断
+void Rcv_IdleCallback(void){
+	/* 判断空闲中断发生 */
+	if(__HAL_UART_GET_FLAG(&huart1, UART_FLAG_IDLE) == SET){
+		/* 清除空闲中断标志位，暂停串口DMA传输 */
+		__HAL_UART_CLEAR_IDLEFLAG(&huart1);
+		HAL_UART_DMAStop(&huart1);
+		/* 接收完成标志位 */
+		rcv_flag = 1;
+	}
+}
+
+int Rcv_DealData(void){
+	if(1==rcv_flag){
+		/* 数据处理 */
 		if(0x0F==rcv_buf[0]&&0xAA==rcv_buf[7]){
 			DATARELOAD(rcv_buf);
-			if(rcv_err>0) rcv_err --;
 		}
 		for(int i=0;i<8;i++){
 			rcv_buf[i]=0;
 		}
+		/* 恢复标志位 */
+		rcv_flag = 0;
+		/* 再次发起下一次的串口DMA接收 */
+		HAL_UART_Receive_DMA(&huart1, rcv_buf, 8);
+		return 0;
+	}else{
+		return -1;
 	}
 }
 
@@ -285,7 +319,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
     if (htim == (&htim14)){
 			//if(rcv_err>0){
-				ClearUARTErrors(USART1);//清除串口错误标志
+			//ClearUARTErrors(USART1);//清除串口错误标志 0602更新后无需使用
 			//}
 			
     }
@@ -313,7 +347,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 						AS5048_dataUpdate(2);	
 				//		HAL_Delay(1);
 						
-						mpu_data[0].REAL_YAW = mpu_data[0].YAW_ANGLE - mpu_data[0].REAL_YAW_SET + mpu_data[0].REAL_YAW_MARK ;
+						mpu_data[0].REAL_YAW = mpu_data[0].YAW_ANGLE;// - mpu_data[0].REAL_YAW_SET + mpu_data[0].REAL_YAW_MARK ;
 
             rtU.W1 = -AS5048s[1].delta_dis;
             rtU.W2 = AS5048s[0].delta_dis;
@@ -321,12 +355,17 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 						
             mpu_data[0].Y_tt += rtY.YOUT ;//*0.014373;
             mpu_data[0].X_tt += rtY.XOUT ;//*0.014373;
-						mpu_data[0].REAL_Y =  mpu_data[0].Y_tt * 0.014373;
-						mpu_data[0].REAL_X  =mpu_data[0].X_tt * 0.014373;
+						mpu_data[0].REAL_Y = mpu_data[0].Y_tt * 0.014373;
+						mpu_data[0].REAL_X = mpu_data[0].X_tt * 0.014373;
 						// x y yaw
 						
+						Rcv_DealData();
+						
 						if(add >= 50){
-							printf("%f %f %f\r\n",mpu_data[0].REAL_X,mpu_data[0].REAL_Y,mpu_data[0].REAL_YAW);
+							memset(mpu_buff, 0, 64);//bc为握手数据
+							int mpu_len = sprintf(mpu_buff,"bc %f %f %f\r\n",mpu_data[0].REAL_X,mpu_data[0].REAL_Y,mpu_data[0].REAL_YAW);
+							HAL_UART_Transmit_DMA(&huart1, (uint8_t *)&mpu_buff, mpu_len);
+							//printf("%f %f %f\r\n",mpu_data[0].REAL_X,mpu_data[0].REAL_Y,mpu_data[0].REAL_YAW);
 						  add = 0;
 						}
 						
@@ -376,6 +415,7 @@ void ClearUARTErrors(USART_TypeDef *USARTx) {
 		// 重新打开串口接收
 		HAL_UART_Receive_DMA(&huart1,rcv_buf,8);
 }
+
 
 /* USER CODE END 4 */
 

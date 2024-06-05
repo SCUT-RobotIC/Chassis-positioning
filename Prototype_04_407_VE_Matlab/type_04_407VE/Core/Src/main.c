@@ -100,6 +100,7 @@ int rcv_err = 3;
 char mpu_buff[64];
 uint16_t rxclear = 0;
 int rcv_flag = 0;
+int rst_temp = 0;
 
 /* USER CODE END PV */
 
@@ -271,7 +272,7 @@ void SystemClock_Config(void)
 //		}
 //}
 
-//因为只需要接收8字节数据，所以lw把接收函数改了一下  0602更新后不再使用
+//接收函数v2 0602更新后不再使用
 //void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
 //	if(huart->Instance == USART1){
 //		if(0x0F==rcv_buf[0]&&0xAA==rcv_buf[7]){
@@ -301,6 +302,9 @@ int Rcv_DealData(void){
 		/* 数据处理 */
 		if(0x0F==rcv_buf[0]&&0xAA==rcv_buf[7]){
 			DATARELOAD(rcv_buf);
+		}else if(0xBB==rcv_buf[0]&&0xCC==rcv_buf[7]){
+			HAL_GPIO_WritePin(RST_CTRL_GPIO_Port,RST_CTRL_Pin,GPIO_PIN_SET);
+			HAL_GPIO_WritePin(RST_CTRL_GPIO_Port,RST_CTRL_Pin,GPIO_PIN_RESET);
 		}
 		for(int i=0;i<8;i++){
 			rcv_buf[i]=0;
@@ -319,7 +323,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
     if (htim == (&htim14)){
 			//if(rcv_err>0){
-			//ClearUARTErrors(USART1);//清除串口错误标志 0602更新后无需使用
+			//ClearUARTErrors(USART1);//清除串口错误标志 0602更新后不再使用
 			//}
 			
     }
@@ -362,7 +366,12 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 						Rcv_DealData();
 						
 						if(add >= 50){
-							memset(mpu_buff, 0, 64);//bc为握手数据
+//							if(1==rst_temp){
+//								HAL_GPIO_WritePin(RST_CTRL_GPIO_Port,RST_CTRL_Pin,GPIO_PIN_SET);
+//								HAL_GPIO_WritePin(RST_CTRL_GPIO_Port,RST_CTRL_Pin,GPIO_PIN_RESET);
+//								rst_temp = 0;
+//							}
+							memset(mpu_buff, 0, 64);//bc为握手标识
 							int mpu_len = sprintf(mpu_buff,"bc %f %f %f\r\n",mpu_data[0].REAL_X,mpu_data[0].REAL_Y,mpu_data[0].REAL_YAW);
 							HAL_UART_Transmit_DMA(&huart1, (uint8_t *)&mpu_buff, mpu_len);
 							//printf("%f %f %f\r\n",mpu_data[0].REAL_X,mpu_data[0].REAL_Y,mpu_data[0].REAL_YAW);

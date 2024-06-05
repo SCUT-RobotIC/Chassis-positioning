@@ -305,6 +305,7 @@ int Rcv_DealData(void){
 		}else if(0xBB==rcv_buf[0]&&0xCC==rcv_buf[7]){
 			HAL_GPIO_WritePin(RST_CTRL_GPIO_Port,RST_CTRL_Pin,GPIO_PIN_SET);
 			HAL_GPIO_WritePin(RST_CTRL_GPIO_Port,RST_CTRL_Pin,GPIO_PIN_RESET);
+			DATARELOAD(rcv_buf);
 		}
 		for(int i=0;i<8;i++){
 			rcv_buf[i]=0;

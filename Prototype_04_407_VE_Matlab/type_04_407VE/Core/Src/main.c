@@ -37,37 +37,18 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-#define USART_CR3_RXFTIE ((uint32_t)0x00008000)
 
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-
-uint8_t receive_buff[8] = {0}; // init  
-int receivefactor[2];
-// header x_low x_high y y yaw yaw footer
-uint8_t tx_buff[255];
-
-
 extern MPU_DATA mpu_data[4];
 extern AS5048 AS5048s[AS5048_NUMBER];
 float i = 0;
 extern float ACCX,ACCY,ACCZ;
-//float tt_x = 0;
-//float tt_y = 0;
-//float tt_x_real = 0;
-//float tt_y_real = 0;
-
 
 int add = 0;
 int times = 0;
-
-int fputc(int ch, FILE *f){
-	//HAL_UART_Transmit_DMA(&huart1, (uint8_t *)&ch, 1);
-  HAL_UART_Transmit(&huart1, (uint8_t *)&ch, 1, 0xffff);
-  return ch;
-}
 
 typedef struct struct_message
 {
@@ -78,13 +59,7 @@ typedef struct struct_message
 } DataPacket;
 
 DataPacket DataRe;
-uint8_t USART_FLAG = 0;
 
-
-uint8_t USART1_RX_BUF[100]; 
-uint16_t USART1_RX_STA = 0; 
-uint8_t aRxBuffer1[1];		  
-UART_HandleTypeDef UART1_Handler; 
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -96,11 +71,8 @@ UART_HandleTypeDef UART1_Handler;
 
 /* USER CODE BEGIN PV */
 uint8_t rcv_buf[64] = {0};
-int rcv_err = 3;
 char mpu_buff[64];
-uint16_t rxclear = 0;
 int rcv_flag = 0;
-int rst_temp = 0;
 
 /* USER CODE END PV */
 
@@ -159,11 +131,11 @@ int main(void)
 	AS5048_init(1,&hspi1,GPIOA,GPIO_PIN_4);
 	AS5048_init(2,&hspi2,GPIOB,GPIO_PIN_12);
 	
-	mpu_data[0].cali = 1; // �Ȳ���
+	mpu_data[0].cali = 1;
 	mpu_data[0].vel[0] = 0;
 	mpu_data[0].vel[1] = 0;
-   mpu_data[0].REAL_YAW_SET = 0;
-	 mpu_data[0].REAL_YAW_MARK = 0;
+  mpu_data[0].REAL_YAW_SET = 0;
+	mpu_data[0].REAL_YAW_MARK = 0;
 		
 	can_filter_init();
 	IM_TEST_initialize();
@@ -171,17 +143,7 @@ int main(void)
 	HAL_TIM_Base_Start_IT(&htim13);
 	HAL_TIM_Base_Start_IT(&htim14);
 	HAL_TIM_Base_Start_IT(&htim11);
-
-		
-//	SelfCalibration();
 	
-//	HAL_Delay(100);
-	
-
-//  mpu_data[0].PITCH_ANGLE_BEG = mpu_data[0].PITCH_ANGLE;
-//  mpu_data[0].YAW_ANGLE_BEG =   mpu_data[0].YAW_ANGLE;
-//  mpu_data[0].ROLL_ANGLE_BEG =  mpu_data[0].ROLL_ANGLE;
-//  
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -244,65 +206,27 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-//void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) //已弃用
-//{
-//			while  (huart->Instance == USART1)
-//		{
-//				USART1_RX_BUF[USART1_RX_STA] = aRxBuffer1[0];
-//				if (USART1_RX_STA == 0 && USART1_RX_BUF[USART1_RX_STA] != 0x0F) 	
-//				{			
-//					HAL_UART_Receive_DMA(&huart1,aRxBuffer1,1);	
-//					break; //
-//				}
-//				USART1_RX_STA++;
-//			HAL_UART_Receive_DMA(&huart1,aRxBuffer1,1);
-//			if (USART1_RX_STA > 100) USART1_RX_STA = 0;  //
-//			if (USART1_RX_BUF[0] == 0x0F && USART1_RX_BUF[7] == 0xAA && USART1_RX_STA == 8)	//检测包头包尾以及数据包长度
-//			{
-//				DATARELOAD(USART1_RX_BUF);
-//				receivefactor[1]=1;
-//				USART1_RX_STA = 0;
-//			}
-//			else if(!(USART1_RX_BUF[0] == 0x0F && USART1_RX_BUF[7] == 0xAA) && USART1_RX_STA == 8){
-//				for(int i=0;i<8;i++)
-//					USART1_RX_BUF[i] = 0;
-//				USART1_RX_STA = 0;
-//			}
-//			break;
-//		}
-//}
 
-//接收函数v2 0602更新后不再使用
-//void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
-//	if(huart->Instance == USART1){
-//		if(0x0F==rcv_buf[0]&&0xAA==rcv_buf[7]){
-//			DATARELOAD(rcv_buf);
-//			if(rcv_err>0) rcv_err --;
-//		}
-//		for(int i=0;i<8;i++){
-//			rcv_buf[i]=0;
-//		}
-//	}
-//}
-
-//0602更新 DMA+空闲中断
+//DMA+空闲中断 用于接收上位机信息
 void Rcv_IdleCallback(void){
-	/* 判断空闲中断发生 */
+	//判断空闲中断发生
 	if(__HAL_UART_GET_FLAG(&huart1, UART_FLAG_IDLE) == SET){
-		/* 清除空闲中断标志位，暂停串口DMA传输 */
+		//清除空闲中断标志位，暂停串口DMA传输
 		__HAL_UART_CLEAR_IDLEFLAG(&huart1);
 		HAL_UART_DMAStop(&huart1);
-		/* 接收完成标志位 */
+		//接收完成标志位
 		rcv_flag = 1;
 	}
 }
 
 int Rcv_DealData(void){
 	if(1==rcv_flag){
-		/* 数据处理 */
+		//数据处理
 		if(0x0F==rcv_buf[0]&&0xAA==rcv_buf[7]){
+			//编码轮强制更新指令
 			DATARELOAD(rcv_buf);
 		}else if(0xBB==rcv_buf[0]&&0xCC==rcv_buf[7]){
+			//陀螺仪硬件复位指令
 			HAL_GPIO_WritePin(RST_CTRL_GPIO_Port,RST_CTRL_Pin,GPIO_PIN_SET);
 			HAL_Delay(500);
 			HAL_GPIO_WritePin(RST_CTRL_GPIO_Port,RST_CTRL_Pin,GPIO_PIN_RESET);
@@ -311,9 +235,9 @@ int Rcv_DealData(void){
 		for(int i=0;i<8;i++){
 			rcv_buf[i]=0;
 		}
-		/* 恢复标志位 */
+		//恢复标志位
 		rcv_flag = 0;
-		/* 再次发起下一次的串口DMA接收 */
+		//发起下一次的串口DMA接收
 		HAL_UART_Receive_DMA(&huart1, rcv_buf, 8);
 		return 0;
 	}else{
@@ -324,36 +248,23 @@ int Rcv_DealData(void){
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
     if (htim == (&htim14)){
-			//if(rcv_err>0){
-			//ClearUARTErrors(USART1);//清除串口错误标志 0602更新后不再使用
-			//}
 			
     }
 		
 		if (htim == (&htim13)){
-//			arm_fir_f32_lp();
 			
-		 }
+		}
 		 
-		 if (htim == (&htim11)){
-			
-			 if(mpu_data[0].cali == 1){
-//					rtU.X_ACCIN  = mpu_data[0].acc_cali[0];
-//					rtU.Y_ACCIN  = mpu_data[0].acc_cali[1];
-				 
-					if(times >= 500){
-						
+		if (htim == (&htim11)){
+			if(mpu_data[0].cali == 1){
+				if(times >= 500){
 						add++;
 						AS5048_getREGValue(1);
-					//	HAL_Delay(1);
 						AS5048_dataUpdate(1);	
-				//		HAL_Delay(1);
 						AS5048_getREGValue(2);
-				//		HAL_Delay(1);
 						AS5048_dataUpdate(2);	
-				//		HAL_Delay(1);
 						
-						mpu_data[0].REAL_YAW = mpu_data[0].YAW_ANGLE;// - mpu_data[0].REAL_YAW_SET + mpu_data[0].REAL_YAW_MARK ;
+						mpu_data[0].REAL_YAW = mpu_data[0].YAW_ANGLE;
 
             rtU.W1 = -AS5048s[1].delta_dis;
             rtU.W2 = AS5048s[0].delta_dis;
@@ -368,65 +279,26 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 						Rcv_DealData();
 						
 						if(add >= 50){
-//							if(1==rst_temp){
-//								HAL_GPIO_WritePin(RST_CTRL_GPIO_Port,RST_CTRL_Pin,GPIO_PIN_SET);
-//								HAL_GPIO_WritePin(RST_CTRL_GPIO_Port,RST_CTRL_Pin,GPIO_PIN_RESET);
-//								rst_temp = 0;
-//							}
-							memset(mpu_buff, 0, 64);//bc为握手标识
+							memset(mpu_buff, 0, 64);
+							//bc为与上位机握手标识
 							int mpu_len = sprintf(mpu_buff,"bc %f %f %f %f\r\n",mpu_data[0].REAL_X,mpu_data[0].REAL_Y,mpu_data[0].REAL_YAW,mpu_data[0].ROLL_ANGLE);
 							HAL_UART_Transmit_DMA(&huart1, (uint8_t *)&mpu_buff, mpu_len);
-							//printf("%f %f %f\r\n",mpu_data[0].REAL_X,mpu_data[0].REAL_Y,mpu_data[0].REAL_YAW);
 						  add = 0;
 						}
-						
 					}else{
 						
 							AS5048_getREGValue(1);
-						//	HAL_Delay(1);
 							AS5048_dataUpdate(1);	
-					//		HAL_Delay(1);
 							AS5048_getREGValue(2);
-					//		HAL_Delay(1);
 							AS5048_dataUpdate(2);
 					  mpu_data[0].vel[0] = 0;
 				    mpu_data[0].vel[1] = 0;
 						times ++ ;
 					}
-
 				IM_TEST_step();
-			 			 
-		 }
+			}
 		}
 }
-
-void ClearUARTErrors(USART_TypeDef *USARTx) {
-    // 清除奇偶校验错误
-    if (USARTx->SR & USART_SR_PE) {
-        (void)USARTx->DR;
-    }
-    // 清除帧错误
-    if (USARTx->SR & USART_SR_FE) {
-        (void)USARTx->DR;
-    }
-    // 清除 noise error
-    if (USARTx->SR & USART_SR_NE) {
-        (void)USARTx->DR;
-    }
-    // 清除 overrun error
-    if (USARTx->SR & USART_SR_ORE) {
-        (void)USARTx->DR;
-    }
-    // 重新使能串口
-    USARTx->CR1 |= USART_CR1_UE;
-    // 重新使能错误中断
-    USARTx->CR3 |= USART_CR3_EIE;
-    // 重新使能接收超过FIFO阈值中断
-    USARTx->CR3 |= USART_CR3_RXFTIE;
-		// 重新打开串口接收
-		HAL_UART_Receive_DMA(&huart1,rcv_buf,8);
-}
-
 
 /* USER CODE END 4 */
 

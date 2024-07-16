@@ -32,7 +32,7 @@ const float32_t firCoeffs32LP[NUM_TAPS] = {
 
 
 
-extern CAN_HandleTypeDef    hcan1;  //SET THE CAN YOU USE HERE
+extern CAN_HandleTypeDef    hcan1;//set can
 int ecd_gb = 0;
 MPU_DATA mpu_data[4];
 float output_vector_data[3];
@@ -40,10 +40,6 @@ arm_matrix_instance_f32 output_vector;
 static CAN_TxHeaderTypeDef  encoder_tx_message;
 static uint8_t         encoder_can_send_data[4];
 float ACCX = 0; float ACCY = 0; float ACCZ = 0;
-
-
-
-
 
 /// @brief actually not use 
 
@@ -66,9 +62,9 @@ void can_filter_init(void)
 }
 
 
-/// @brief hal��CAN�ص�����,����MPU����
+/// @brief hal_CAN,MPU�
 
-
+//本文件注释掉的代码为之前调试所用，可完全忽略
 void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 {
     CAN_RxHeaderTypeDef rx_header;
@@ -82,9 +78,6 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 	  uint16_t yaw_raw;
     switch (rx_header.ExtId)
     {
-				
-
-			
         case 0x0CF02D59: //acc
             
 //						mpu_data[0].acc[0] = 1; //X Y Z
@@ -103,7 +96,6 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 //            mpu_data[0].acc_cali[1] = mpu_data[0].acc[1] - mpu_data[0].ACCY_CALI;
 //            mpu_data[0].acc_cali[2] = mpu_data[0].acc[2] - mpu_data[0].ACCZ_CALI;
 
-
 //            // 计算重力的影响
 //            float gX = arm_sin_f32(mpu_data[0].ROLL) * arm_cos_f32(mpu_data[0].PITCH) * 9.81;
 //            float gY = arm_cos_f32(mpu_data[0].ROLL) * arm_cos_f32(mpu_data[0].PITCH) * 9.81;
@@ -112,7 +104,6 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 //						mpu_data[0].acc_cali[0] = mpu_data[0].acc[1] - gX;
 //            mpu_data[0].acc_cali[1] = mpu_data[0].acc[2] - gY;
 //            mpu_data[0].acc_cali[2] = mpu_data[0].acc[0] + gZ;
-//						
 						
 						mpu_data[0].acc_cali[0] = mpu_data[0].acc[0] - output_vector_data[1];
             mpu_data[0].acc_cali[1] = mpu_data[0].acc[1] + output_vector_data[0];
@@ -151,20 +142,16 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 //            mpu_data[0].ROLL = 0.4; // X
 //            mpu_data[0].YAW = 0.3; //Z
 //            break;
-				
-				
+
 					 pitch_raw= ((uint16_t)rx_data[1] << 8) | rx_data[0];
 					 roll_raw = ((uint16_t)rx_data[3] << 8) | rx_data[2];
 					 yaw_raw = ((uint16_t)rx_data[5] << 8) | rx_data[4];
-//				
 
-
-//					
             mpu_data[0].PITCH_ANGLE =  (float)pitch_raw * 0.0078125 - 250 ; // Y
             mpu_data[0].ROLL_ANGLE = (float)roll_raw * 0.0078125 - 250; // X
             mpu_data[0].YAW_ANGLE= (float)yaw_raw * 0.0078125 - 250; //Z
 				
-//			     mpu_data[0].PITCH_ANGLE =  asin(-2 * mpu_data[0].quat[1] * mpu_data[0].quat[3] + 2 * mpu_data[0].quat[0]* mpu_data[0].quat[2])* 57.3; 	
+//			    mpu_data[0].PITCH_ANGLE =  asin(-2 * mpu_data[0].quat[1] * mpu_data[0].quat[3] + 2 * mpu_data[0].quat[0]* mpu_data[0].quat[2])* 57.3; 	
 //					mpu_data[0].ROLL_ANGLE = atan2(2 * mpu_data[0].quat[2] * mpu_data[0].quat[3] + 2 * mpu_data[0].quat[0] * mpu_data[0].quat[1], -2 * mpu_data[0].quat[1] * mpu_data[0].quat[1] - 2 * mpu_data[0].quat[2]* mpu_data[0].quat[2] + 1)* 57.3; 
 //					mpu_data[0].YAW_ANGLE= atan2(2 * (mpu_data[0].quat[1]*mpu_data[0].quat[2] + mpu_data[0].quat[0]*mpu_data[0].quat[3]),mpu_data[0].quat[0]*mpu_data[0].quat[0]+mpu_data[0].quat[1]*mpu_data[0].quat[1]-mpu_data[0].quat[2]*mpu_data[0].quat[2]-mpu_data[0].quat[3]*mpu_data[0].quat[3])*57.3;//yaw
 //			
@@ -172,20 +159,15 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
             mpu_data[0].ROLL=  mpu_data[0].ROLL_ANGLE * (3.1415926/180); // X
             mpu_data[0].YAW = mpu_data[0].YAW_ANGLE * (3.1415926/180); //Z
 
-
 //            mpu_data[0].PITCH_ANGLE_Del = mpu_data[0].PITCH_ANGLE - mpu_data[0].PITCH_ANGLE_BEG;
 //            mpu_data[0].ROLL_ANGLE_Del = mpu_data[0].ROLL_ANGLE - mpu_data[0].ROLL_ANGLE_BEG;
 //            mpu_data[0].YAW_ANGLE_Del = mpu_data[0].YAW_ANGLE - mpu_data[0].YAW_ANGLE_BEG;
 
-				
-				
 				   break;
         
         default:
             break;
     }
-
-
     HAL_CAN_ActivateNotification(&hcan1, CAN_IT_RX_FIFO0_MSG_PENDING);
 }
 
@@ -193,7 +175,6 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 void VECTOR_CONVERT(){
   // input XYZ euler , ACC xyz ,
   // output ACC in world frame
-	
 	
 		float32_t rotation_matrix_data[9] = {
 		arm_cos_f32(mpu_data[0].YAW)*arm_cos_f32(mpu_data[0].PITCH), 
@@ -209,11 +190,8 @@ void VECTOR_CONVERT(){
 
 		// rotation_matrix_data[8] = arm_cos_f32(mpu_data[0].PITCH)*arm_cos_f32(mpu_data[0].ROLL);
       
-		 
-		 
-//		
 	    arm_matrix_instance_f32 rotation_matrix;
-		   arm_matrix_instance_f32 trans_rotation_matrix;
+		  arm_matrix_instance_f32 trans_rotation_matrix;
       arm_mat_init_f32(&rotation_matrix, 3, 3, rotation_matrix_data);
 			arm_mat_trans_f32(&rotation_matrix,&trans_rotation_matrix);
     
@@ -277,7 +255,7 @@ void arm_fir_f32_lp(void)
 }
 
 
-// 这个办法不行
+//下面这个函数的办法不行，已弃用
 void SelfCalibration(){
 	mpu_data[0].cali =  0;
 	int cali_times = 1000;
@@ -296,29 +274,7 @@ void SelfCalibration(){
 
 }
 
-///// @brief hal��CAN�ص�����,����ENCODER����
-//void CAN_CMD_ENCODER()
-//{
-//		
-//    uint32_t send_mail_box;
-//    encoder_tx_message.StdId = 0x01;
-//    encoder_tx_message.IDE = CAN_ID_STD;
-//    encoder_tx_message.RTR = CAN_RTR_DATA;
-//    encoder_tx_message.DLC = 0x04;
-//    encoder_can_send_data[0] = 0x04;
-//    encoder_can_send_data[1] = 0x01;
-//		encoder_can_send_data[2] = 0x01;
-//		encoder_can_send_data[3] = 0x00;
-//	
-//    HAL_CAN_AddTxMessage(&hcan1, &encoder_tx_message, encoder_can_send_data, &send_mail_box);
-//}
-
-
-// receive a list
-
 void DATARELOAD(uint8_t * arr){
-
-// header x_low x_high y y yaw yaw footer
 		uint16_t temp[2] = {0};
 		
 		if(arr[1]==0x00&&arr[2]==0x00){
@@ -351,27 +307,7 @@ void DATARELOAD(uint8_t * arr){
 			mpu_data[0].REAL_Y = (arr[3] | arr[4] << 8);
 		}
 		
-//		if(arr[5]==0x00&&arr[6]==0x00){
-//			mpu_data[0].REAL_YAW_MARK = 0;
-//		}
-//		else if((arr[6]&0x80)==0x80)//负数
-//		{
-//			temp[2] = arr[6];
-//			temp[2] = temp[2] << 8;
-//			temp[2] += arr[5];
-//			temp[2] -= 1;
-//			temp[2] = ~temp[2];
-//			mpu_data[0].REAL_YAW_MARK = 0-temp[2];
-//		}else{
-//			mpu_data[0].REAL_YAW_MARK = (arr[5] | arr[6] << 8);
-//		}
-		
-//    mpu_data[0].REAL_X = (arr[1] | arr[2] << 8);
-//    mpu_data[0].REAL_Y = (arr[3] | arr[4] << 8);
     mpu_data[0].X_tt  = mpu_data[0].REAL_X / 0.014373;
     mpu_data[0].Y_tt  = mpu_data[0].REAL_Y / 0.014373;
-
-//     mpu_data[0].REAL_YAW_MARK = (arr[5] | arr[6] << 8);
-//     mpu_data[0].REAL_YAW_SET = mpu_data[0].YAW_ANGLE;
-
+		
 }

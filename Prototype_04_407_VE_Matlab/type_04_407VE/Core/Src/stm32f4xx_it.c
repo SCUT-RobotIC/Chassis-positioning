@@ -67,10 +67,6 @@ extern DMA_HandleTypeDef hdma_usart1_tx;
 extern UART_HandleTypeDef huart1;
 /* USER CODE BEGIN EV */
 
-extern uint8_t receive_buff[8];
-
-
-
 /* USER CODE END EV */
 
 /******************************************************************************/
@@ -292,31 +288,6 @@ void USART1_IRQHandler(void)
   /* USER CODE END USART1_IRQn 0 */
   HAL_UART_IRQHandler(&huart1);
   /* USER CODE BEGIN USART1_IRQn 1 */
-//			if(RESET != __HAL_UART_GET_FLAG(&huart1, UART_FLAG_IDLE))
-//						{
-//									__HAL_UART_CLEAR_IDLEFLAG(&huart1);                   
-//			
-//										HAL_UART_DMAStop(&huart1);
-//										uint8_t data_length  = __HAL_DMA_GET_COUNTER(&hdma_usart1_rx);
-//								
-//						
-//								
-//				
-//								
-//										HAL_UART_Receive_DMA(&huart1,receive_buff,8);
-//							
-//										if(receive_buff[0] == 0x0f && receive_buff[7] == 0xAA){
-//											
-//											
-//											DATARELOAD(receive_buff);
-//                      receive_buff[0] = 0x00;
-
-//                
-//											
-//										}
-//										
-//					
-//							}
 
   /* USER CODE END USART1_IRQn 1 */
 }

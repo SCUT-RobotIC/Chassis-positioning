@@ -9,7 +9,6 @@ void AS5048_init(int AS5048_ID,SPI_HandleTypeDef *spi,GPIO_TypeDef *GPIOx,uint16
 	
 	AS5048 *AS5 = AS5048s + AS5048_ID -1;
 	
-	
 	AS5->spi_number = spi;
 	AS5->GPIOx = GPIOx;
 	AS5->GPIO_Pin = GPIO_Pin;
@@ -19,7 +18,6 @@ void AS5048_init(int AS5048_ID,SPI_HandleTypeDef *spi,GPIO_TypeDef *GPIOx,uint16
 	AS5->last_angle = AS5->angle;
 	AS5->delta_dis = 0;
 	
-	//��
 }
 
 
@@ -81,26 +79,4 @@ void AS5048_dataUpdate(const int AS5048_ID){
 
 
 }
-
-	// cc direction & circle
-//	int diff = AS5->angle - AS5->last_angle;
-//	if (diff > 10000) {
-//		AS5->cirle--;
-//		AS5->total_angle = AS5->angle + AS5->cirle * 16384;
-//		
-//	} else if (diff < -10000) {
-//		AS5->cirle++;
-//		AS5->total_angle = AS5->angle + AS5->cirle * 16384;
-//		
-//	}else if (diff > 0) {
-//		AS5->total_angle += diff;
-//	
-//	} else if (diff < 0) {
-//		AS5->total_angle += diff;
-//	
-//		
-//	}
-
-
-	
 

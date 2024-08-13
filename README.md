@@ -1,6 +1,6 @@
 # RobotIC 24赛季场地定位方案
 
-* 立创平台开源链接：（待更新）
+* 立创平台开源链接：https://oshwhub.com/roboticlib/yi-yan-zheng-zheng-jiao-ma-pan-chang-di-ding-wei-xi-tong
 
 ## 编码轮+陀螺仪
 

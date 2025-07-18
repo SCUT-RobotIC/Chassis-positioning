@@ -1,0 +1,252 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: ¦ÌVision V5.36.0.0
+Copyright (C) 2021 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: BC Poria, None, LIC=8VRJ7-EN031-HLJCL-0I6H7-X2RWZ-VJLWX
+ 
+Tool Versions:
+Toolchain:       MDK-ARM Plus  Version: 5.36.0.0
+Toolchain Path:  D:\Keil_v5\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.06 update 7 (build 960)
+Assembler:       Armasm.exe V5.06 update 7 (build 960)
+Linker/Locator:  ArmLink.exe V5.06 update 7 (build 960)
+Library Manager: ArmAr.exe V5.06 update 7 (build 960)
+Hex Converter:   FromElf.exe V5.06 update 7 (build 960)
+CPU DLL:         SARMCM3.DLL V5.36.0.0
+Dialog DLL:      DCM.DLL V1.17.3.0
+Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.0.9.0
+Dialog DLL:      TCM.DLL V1.53.0.0
+ 
+<h2>Project:</h2>
+E:\RobotIC\Chassis-positioning\Prototype_04_407_VE_Matlab\type_04_407VE\MDK-ARM\type_04_407VE.uvprojx
+Project File Date:  04/01/2025
+
+<h2>Output:</h2>
+*** Using Compiler 'V5.06 update 7 (build 960)', folder: 'D:\Keil_v5\ARM\ARMCC\Bin'
+Build target 'type_04_407VE'
+assembling startup_stm32f407xx.s...
+compiling IM_TEST.c...
+IM_TEST.c(107): warning:  #177-D: function "rtIsInf"  was declared but never referenced
+  static boolean_T rtIsInf(real_T value)
+IM_TEST.c(113): warning:  #177-D: function "rtIsInfF"  was declared but never referenced
+  static boolean_T rtIsInfF(real32_T value)
+IM_TEST.c(119): warning:  #177-D: function "rtIsNaN"  was declared but never referenced
+  static boolean_T rtIsNaN(real_T value)
+IM_TEST.c: 3 warnings, 0 errors
+compiling can.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(51): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+../Core/Src/can.c: 1 warning, 0 errors
+compiling stm32f4xx_it.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(51): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+../MDK-ARM/YIS130.h(52): warning:  #1295-D: Deprecated declaration CAN_CMD_ENCODER - give arg types
+  void CAN_CMD_ENCODER();
+../MDK-ARM/YIS130.h(62): warning:  #1295-D: Deprecated declaration VECTOR_CONVERT - give arg types
+  void VECTOR_CONVERT();
+../MDK-ARM/YIS130.h(64): warning:  #1295-D: Deprecated declaration SelfCalibration - give arg types
+  void SelfCalibration();
+../Core/Src/stm32f4xx_it.c: 4 warnings, 0 errors
+compiling dma.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(51): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+../Core/Src/dma.c: 1 warning, 0 errors
+compiling AS5048.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(51): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+AS5048.h(56): warning:  #1-D: last line of file ends without a newline
+  #endif
+AS5048.c: 2 warnings, 0 errors
+compiling stm32f4xx_hal_msp.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(51): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+../Core/Src/stm32f4xx_hal_msp.c: 1 warning, 0 errors
+compiling spi.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(51): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+../Core/Src/spi.c: 1 warning, 0 errors
+compiling stm32f4xx_hal_can.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(51): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_can.c: 1 warning, 0 errors
+compiling gpio.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(51): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+../Core/Src/gpio.c: 1 warning, 0 errors
+compiling usart.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(51): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+../Core/Src/usart.c: 1 warning, 0 errors
+compiling tim.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(51): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+../Core/Src/tim.c: 1 warning, 0 errors
+compiling stm32f4xx_hal_rcc_ex.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(51): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c: 1 warning, 0 errors
+compiling main.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(51): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+../MDK-ARM/YIS130.h(52): warning:  #1295-D: Deprecated declaration CAN_CMD_ENCODER - give arg types
+  void CAN_CMD_ENCODER();
+../MDK-ARM/YIS130.h(62): warning:  #1295-D: Deprecated declaration VECTOR_CONVERT - give arg types
+  void VECTOR_CONVERT();
+../MDK-ARM/YIS130.h(64): warning:  #1295-D: Deprecated declaration SelfCalibration - give arg types
+  void SelfCalibration();
+../MDK-ARM/AS5048.h(56): warning:  #1-D: last line of file ends without a newline
+  #endif
+../Core/Src/main.c(285): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  						mpu_data[0].REAL_Y = mpu_data[0].Y_tt * 0.014373;
+../Core/Src/main.c(286): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  						mpu_data[0].REAL_X = mpu_data[0].X_tt * 0.014373;
+../Core/Src/main.c: 7 warnings, 0 errors
+compiling stm32f4xx_hal_rcc.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(51): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.c: 1 warning, 0 errors
+compiling stm32f4xx_hal_flash.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(51): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash.c: 1 warning, 0 errors
+compiling YIS130.c...
+YIS130.h(52): warning:  #1295-D: Deprecated declaration CAN_CMD_ENCODER - give arg types
+  void CAN_CMD_ENCODER();
+YIS130.h(62): warning:  #1295-D: Deprecated declaration VECTOR_CONVERT - give arg types
+  void VECTOR_CONVERT();
+YIS130.h(64): warning:  #1295-D: Deprecated declaration SelfCalibration - give arg types
+  void SelfCalibration();
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(51): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+YIS130.c(99): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+              mpu_data[0].acc[0] = ((float)(rx_data[1] << 8 | rx_data[0]))* 0.01 -320; //X Y Z
+YIS130.c(100): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+              mpu_data[0].acc[1] = ((float)(rx_data[3] << 8 | rx_data[2]))* 0.01 -320;   
+YIS130.c(101): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+              mpu_data[0].acc[2] = ((float)(rx_data[5] << 8 | rx_data[4]))* 0.01 -320;
+YIS130.c(137): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  						mpu_data[0].gyro[0] = (float)((((uint32_t)(rx_data[2]&0x0F) << 16) | ((uint32_t)rx_data[1] << 8) | rx_data[0])     )* 0.0078125 - 4000;
+YIS130.c(139): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  						mpu_data[0].gyro[1]=  (float)(((uint32_t)(rx_data[4])<< 12) | ((uint32_t)rx_data[3] << 4) | ((rx_data[2]&0xF0)>> 4))* 0.0078125 - 4000;
+YIS130.c(141): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  						mpu_data[0].gyro[2] = (float)((((uint32_t)(rx_data[7]&0x0F) << 16) | ((uint32_t)rx_data[6] << 8) | rx_data[5] ))    * 0.0078125 - 4000;
+YIS130.c(146): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+              mpu_data[0].quat[0] = ((float)(((rx_data[1] << 8) | rx_data[0])))* 3.0519E-005 - 1;  // w
+YIS130.c(147): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+              mpu_data[0].quat[1] = ((float)(((rx_data[3] << 8) | rx_data[2])))* 3.0519E-005 - 1;    // x
+YIS130.c(148): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+              mpu_data[0].quat[2] = ((float)(((rx_data[5] << 8) | rx_data[4])))* 3.0519E-005 - 1;    //y  
+YIS130.c(149): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  						mpu_data[0].quat[3] = ((float)(((rx_data[7] << 8) | rx_data[6])))* 3.0519E-005 - 1; // z
+YIS130.c(153): warning:  #111-D: statement is unreachable
+              break;
+YIS130.c(172): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+              mpu_data[0].PITCH_ANGLE =  (float)pitch_raw * 0.0078125 - 250 ; // Y
+YIS130.c(173): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+              mpu_data[0].ROLL_ANGLE = (float)roll_raw * 0.0078125 - 250; // X
+YIS130.c(174): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+              mpu_data[0].YAW_ANGLE= (float)yaw_raw * 0.0078125 - 250; //Z
+YIS130.c(332): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+      mpu_data[0].X_tt  = mpu_data[0].REAL_X / 0.014373;
+YIS130.c(333): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+      mpu_data[0].Y_tt  = mpu_data[0].REAL_Y / 0.014373;
+YIS130.c(335): warning:  #1-D: last line of file ends without a newline
+  }
+YIS130.c(41): warning:  #177-D: variable "encoder_tx_message"  was declared but never referenced
+  static CAN_TxHeaderTypeDef  encoder_tx_message;
+YIS130.c(42): warning:  #177-D: variable "encoder_can_send_data"  was declared but never referenced
+  static uint8_t         encoder_can_send_data[4];
+YIS130.c: 23 warnings, 0 errors
+compiling system_stm32f4xx.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(51): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+../Core/Src/system_stm32f4xx.c: 1 warning, 0 errors
+compiling stm32f4xx_hal_pwr.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(51): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c: 1 warning, 0 errors
+compiling stm32f4xx_hal_flash_ramfunc.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(51): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ramfunc.c: 1 warning, 0 errors
+compiling stm32f4xx_hal_flash_ex.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(51): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ex.c: 1 warning, 0 errors
+compiling stm32f4xx_hal_dma.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(51): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma.c: 1 warning, 0 errors
+compiling stm32f4xx_hal_exti.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(51): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_exti.c: 1 warning, 0 errors
+compiling stm32f4xx_hal_pwr_ex.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(51): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.c: 1 warning, 0 errors
+compiling stm32f4xx_hal_dma_ex.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(51): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma_ex.c: 1 warning, 0 errors
+compiling stm32f4xx_hal_gpio.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(51): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c: 1 warning, 0 errors
+compiling stm32f4xx_hal.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(51): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.c: 1 warning, 0 errors
+compiling stm32f4xx_hal_cortex.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(51): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c: 1 warning, 0 errors
+compiling stm32f4xx_hal_tim_ex.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(51): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim_ex.c: 1 warning, 0 errors
+compiling stm32f4xx_hal_spi.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(51): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_spi.c: 1 warning, 0 errors
+compiling stm32f4xx_hal_uart.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(51): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.c: 1 warning, 0 errors
+compiling stm32f4xx_hal_tim.c...
+../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h(51): warning:  #47-D: incompatible redefinition of macro "__FPU_PRESENT" 
+  #define __FPU_PRESENT             1U       /*!< FPU present                                   */
+../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.c: 1 warning, 0 errors
+linking...
+Program Size: Code=21668 RO-data=2636 RW-data=140 ZI-data=37748  
+FromELF: creating hex file...
+"type_04_407VE\type_04_407VE.axf" - 0 Error(s), 65 Warning(s).
+
+<h2>Software Packages used:</h2>
+
+Package Vendor: ARM
+                http://www.keil.com/pack/ARM.CMSIS.5.8.0.pack
+                ARM.CMSIS.5.8.0
+                CMSIS (Common Microcontroller Software Interface Standard)
+   * Component: CORE Version: 5.5.0
+
+Package Vendor: Keil
+                https://www.keil.com/pack/Keil.STM32F4xx_DFP.3.0.0.pack
+                Keil.STM32F4xx_DFP.3.0.0
+                STMicroelectronics STM32F4 Series Device Support
+
+<h2>Collection of Component include folders:</h2>
+  .\RTE\_type_04_407VE
+  E:\Keil_packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include
+
+<h2>Collection of Component Files used:</h2>
+
+   * Component: ARM::CMSIS:CORE:5.5.0
+      Include file:  CMSIS\Core\Include\tz_context.h
+Build Time Elapsed:  00:00:08
+</pre>
+</body>
+</html>

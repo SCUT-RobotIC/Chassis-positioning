@@ -1,0 +1,30 @@
+# RobotIC 24赛季场地定位方案
+
+* 立创平台开源链接：https://oshwhub.com/roboticlib/yi-yan-zheng-zheng-jiao-ma-pan-chang-di-ding-wei-xi-tong
+
+## 编码轮+陀螺仪
+
+## 编码轮相关参数
+
+* 轮子的直径是75 mm // 一圈 
+
+* 编码器一圈16384
+
+* 所以每编码器格 = 0,014373
+
+## 分支说明
+
+* final为最终上场版本的精简版，删除了一些没有使用的代码
+* main分支为研发时所用
+* toROS分支与final上场版本相同，里面记录了更多测试时的内容
+
+## 文件结构说明
+
+* Prototype_04_407_VE_Matlab：keil工程
+  
+  keil内文件：YIS130为陀螺仪相关、AS5048为磁编码轮相关
+
+  toORS分支下keil工程为24赛季给ROS上位机使用的，二者通过串口通信
+
+* slprj：MATLAB生成文件，可忽略
+* Version2：MATLAB模型文件、Simulink生成代码文件

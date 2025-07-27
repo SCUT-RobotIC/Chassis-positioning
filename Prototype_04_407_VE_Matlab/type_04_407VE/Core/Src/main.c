@@ -27,11 +27,11 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "MA600.h"
 #include "YIS130.h"
 #include "arm_math.h"
 #include "IM_TEST.h"
 #include "stdio.h"
-#include "AS5048.h"
 
 /* USER CODE END Includes */
 
@@ -42,13 +42,17 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+uint16_t angle[2];
+uint16_t angle_int[2];
+
+
 extern MPU_DATA mpu_data[4];
-extern AS5048 AS5048s[AS5048_NUMBER];
 float i = 0;
 extern float ACCX,ACCY,ACCZ;
 
 int add = 0;
 int times = 0;
+int add14= 0;
 
 typedef struct struct_message
 {
@@ -60,6 +64,7 @@ typedef struct struct_message
 
 DataPacket DataRe;
 
+
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -70,8 +75,17 @@ DataPacket DataRe;
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
+
 uint8_t rcv_buf[64] = {0};
-char mpu_buff[64];
+char mpu_buff[64] = {0};
+
+imu_data imu_buf = {
+	.head[0] = 0xC5,
+	.head[1] = 0X6C,
+	.tail[0] = 0X5C,
+	.tail[1] = 0XC6
+};//2025–¬ ˝æ›∞¸
+
 int rcv_flag = 0;
 
 /* USER CODE END PV */
@@ -93,6 +107,7 @@ void SystemClock_Config(void);
   */
 int main(void)
 {
+
   /* USER CODE BEGIN 1 */
 
   /* USER CODE END 1 */
@@ -118,31 +133,33 @@ int main(void)
   MX_DMA_Init();
   MX_CAN1_Init();
   MX_TIM11_Init();
-  MX_TIM13_Init();
   MX_TIM14_Init();
   MX_USART1_UART_Init();
   MX_SPI1_Init();
   MX_SPI2_Init();
+  MX_TIM6_Init();
   /* USER CODE BEGIN 2 */
+	
 	
 	__HAL_UART_ENABLE_IT(&huart1, UART_IT_IDLE); 
 	HAL_UART_Receive_DMA(&huart1, rcv_buf, 8);	
-	
-	AS5048_init(1,&hspi1,GPIOA,GPIO_PIN_4);
-	AS5048_init(2,&hspi2,GPIOB,GPIO_PIN_12);
-	
+		
+  MA600_HandleInit(&TestMA600[0], &hspi1, GPIOA, GPIO_PIN_4);
+  MA600_HandleInit(&TestMA600[1], &hspi2, GPIOB, GPIO_PIN_12);
+		
 	mpu_data[0].cali = 1;
 	mpu_data[0].vel[0] = 0;
 	mpu_data[0].vel[1] = 0;
-  mpu_data[0].REAL_YAW_SET = 0;
+	mpu_data[0].REAL_YAW_SET = 0;
 	mpu_data[0].REAL_YAW_MARK = 0;
 		
 	can_filter_init();
 	IM_TEST_initialize();
 	
-	HAL_TIM_Base_Start_IT(&htim13);
+	HAL_TIM_Base_Start(&htim6);
+  HAL_TIM_Base_Start_IT(&htim11);
 	HAL_TIM_Base_Start_IT(&htim14);
-	HAL_TIM_Base_Start_IT(&htim11);
+
 	
   /* USER CODE END 2 */
 
@@ -155,6 +172,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+
 
   }
   /* USER CODE END 3 */
@@ -207,26 +225,27 @@ void SystemClock_Config(void)
 
 /* USER CODE BEGIN 4 */
 
-//DMA+Á©∫Èó≤‰∏≠Êñ≠ Áî®‰∫éÊé•Êî∂‰∏ä‰ΩçÊú∫‰ø°ÊÅØ
+//DMA+ø’œ–÷–∂œ ”√”⁄Ω” ’…œŒªª˙–≈??
 void Rcv_IdleCallback(void){
-	//Âà§Êñ≠Á©∫Èó≤‰∏≠Êñ≠ÂèëÁîü
+	//≈–∂œø’œ–÷–∂œ∑¢…˙
 	if(__HAL_UART_GET_FLAG(&huart1, UART_FLAG_IDLE) == SET){
-		//Ê∏ÖÈô§Á©∫Èó≤‰∏≠Êñ≠Ê†áÂøó‰ΩçÔºåÊöÇÂÅú‰∏≤Âè£DMA‰º†Ëæì
+		//«Â≥˝ø’œ–÷–∂œ±Í÷æŒª£¨‘›Õ£¥Æø⁄DMA¥´ ‰
 		__HAL_UART_CLEAR_IDLEFLAG(&huart1);
 		HAL_UART_DMAStop(&huart1);
-		//Êé•Êî∂ÂÆåÊàêÊ†áÂøó‰Ωç
+		//Ω” ’ÕÍ≥…±Í÷æ??
 		rcv_flag = 1;
 	}
 }
 
 int Rcv_DealData(void){
 	if(1==rcv_flag){
-		//Êï∞ÊçÆÂ§ÑÁêÜ
+		// ˝æ›¥¶¿Ì
 		if(0x0F==rcv_buf[0]&&0xAA==rcv_buf[7]){
-			//ÁºñÁ†ÅËΩÆÂº∫Âà∂Êõ¥Êñ∞Êåá‰ª§
+			//±‡¬Î¬÷«ø÷∆∏¸–¬÷∏??
 			DATARELOAD(rcv_buf);
-		}else if(0xBB==rcv_buf[0]&&0xCC==rcv_buf[7]){
-			//ÈôÄËû∫‰ª™Á°¨‰ª∂Â§ç‰ΩçÊåá‰ª§
+		}
+		else if(0xBB==rcv_buf[0]&&0xCC==rcv_buf[7]){
+			//??¬›“«”≤º˛∏¥Œª÷∏¡Ó
 			HAL_GPIO_WritePin(RST_CTRL_GPIO_Port,RST_CTRL_Pin,GPIO_PIN_SET);
 			HAL_Delay(500);
 			HAL_GPIO_WritePin(RST_CTRL_GPIO_Port,RST_CTRL_Pin,GPIO_PIN_RESET);
@@ -235,9 +254,9 @@ int Rcv_DealData(void){
 		for(int i=0;i<8;i++){
 			rcv_buf[i]=0;
 		}
-		//ÊÅ¢Â§çÊ†áÂøó‰Ωç
+		//ª÷∏¥±Í÷æ??
 		rcv_flag = 0;
-		//ÂèëËµ∑‰∏ã‰∏ÄÊ¨°ÁöÑ‰∏≤Âè£DMAÊé•Êî∂
+		//∑¢∆œ¬“ª¥Œµƒ¥Æø⁄DMAΩ” ’
 		HAL_UART_Receive_DMA(&huart1, rcv_buf, 8);
 		return 0;
 	}else{
@@ -245,29 +264,32 @@ int Rcv_DealData(void){
 	}
 }
 
+
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
     if (htim == (&htim14)){
-			
+			add14++;
+			if(add14 >= 5){
+				add14 = 0;
+				HAL_UART_Transmit_DMA(&huart1, (uint8_t *)&imu_buf, 24);
+				
+			}
     }
 		
-		if (htim == (&htim13)){
-			
-		}
 		 
 		if (htim == (&htim11)){
 			if(mpu_data[0].cali == 1){
 				if(times >= 500){
 						add++;
-						AS5048_getREGValue(1);
-						AS5048_dataUpdate(1);	
-						AS5048_getREGValue(2);
-						AS5048_dataUpdate(2);	
+						MA600_Get_Angle(&TestMA600[0]);
+						MA600_dataUpdate(&TestMA600[0]);
+						MA600_Get_Angle(&TestMA600[1]);
+						MA600_dataUpdate(&TestMA600[1]);	
 						
 						mpu_data[0].REAL_YAW = mpu_data[0].YAW_ANGLE;
 
-            rtU.W1 = -AS5048s[1].delta_dis;
-            rtU.W2 = AS5048s[0].delta_dis;
+            rtU.W1 = -TestMA600[1].delta_dis;
+            rtU.W2 = TestMA600[0].delta_dis;
             rtU.DEG = mpu_data[0].REAL_YAW;
 						
             mpu_data[0].Y_tt += rtY.YOUT ;//*0.014373;
@@ -279,18 +301,19 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 						Rcv_DealData();
 						
 						if(add >= 50){
-							memset(mpu_buff, 0, 64);
-							//bc‰∏∫‰∏é‰∏ä‰ΩçÊú∫Êè°ÊâãÊ†áËØÜ
-							int mpu_len = sprintf(mpu_buff,"bc %f %f %f %f\r\n",mpu_data[0].REAL_X,mpu_data[0].REAL_Y,mpu_data[0].REAL_YAW,mpu_data[0].ROLL_ANGLE);
-							HAL_UART_Transmit_DMA(&huart1, (uint8_t *)&mpu_buff, mpu_len);
+//							memset(mpu_buff, 0, 64);
+//							//bcŒ™”Î…œŒªª˙Œ’ ÷±Í??
+//							int mpu_len = sprintf(mpu_buff,"bc %f %f %f %f\r\n",mpu_data[0].REAL_X,mpu_data[0].REAL_Y,mpu_data[0].REAL_YAW,mpu_data[0].ROLL_ANGLE);
+//							HAL_UART_Transmit_DMA(&huart1, (uint8_t *)&mpu_buff, mpu_len);
 						  add = 0;
 						}
-					}else{
+					}
+						else{
 						
-							AS5048_getREGValue(1);
-							AS5048_dataUpdate(1);	
-							AS5048_getREGValue(2);
-							AS5048_dataUpdate(2);
+						MA600_Get_Angle(&TestMA600[0]);
+						MA600_dataUpdate(&TestMA600[0]);
+						MA600_Get_Angle(&TestMA600[1]);
+						MA600_dataUpdate(&TestMA600[1]);	
 					  mpu_data[0].vel[0] = 0;
 				    mpu_data[0].vel[1] = 0;
 						times ++ ;
@@ -298,7 +321,15 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 				IM_TEST_step();
 			}
 		}
+		
+		angle[0]=TestMA600[0].Angle;
+		angle_int[0]=angle[0]/182;
+		angle[1]=TestMA600[1].Angle;
+		angle_int[1]=angle[1]/182;
+
 }
+
+
 
 /* USER CODE END 4 */
 

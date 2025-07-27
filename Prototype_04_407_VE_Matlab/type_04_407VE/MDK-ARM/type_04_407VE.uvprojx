@@ -10,7 +10,7 @@
       <TargetName>type_04_407VE</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pCCUsed>5060960::V5.06 update 7 (build 960)::.\ARMCC</pCCUsed>
+      <pCCUsed>5060960::V5.06 update 7 (build 960)::.\ARM_Compiler_5.06u7</pCCUsed>
       <uAC6>0</uAC6>
       <TargetOption>
         <TargetCommonOption>
@@ -186,6 +186,7 @@
             <RvdsVP>2</RvdsVP>
             <RvdsMve>0</RvdsMve>
             <RvdsCdeCp>0</RvdsCdeCp>
+            <nBranchProt>0</nBranchProt>
             <hadIRAM2>1</hadIRAM2>
             <hadIROM2>0</hadIROM2>
             <StupSel>8</StupSel>
@@ -339,7 +340,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F407xx,ARM_MATH_CM4,__CC_ARM,__TARGET_FPU_VFP,__FPU_PRESENT=1</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../Drivers/CMSIS/Include;../MDK-ARM;../Drivers/CMSIS/DSP/Include;../Middlewares/ST/ARM/DSP/Inc</IncludePath>
+              <IncludePath>../Core/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../Drivers/CMSIS/Include;../MDK-ARM;../Drivers/CMSIS/DSP/Include;../Middlewares/ST/ARM/DSP/Inc;..\User</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -394,29 +395,9 @@
           <GroupName>Application/User/Core</GroupName>
           <Files>
             <File>
-              <FileName>IM_TEST.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\IM_TEST.c</FilePath>
-            </File>
-            <File>
-              <FileName>YIS130.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\YIS130.c</FilePath>
-            </File>
-            <File>
-              <FileName>YIS130.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\YIS130.h</FilePath>
-            </File>
-            <File>
               <FileName>arm_cortexM4lf_math.lib</FileName>
               <FileType>4</FileType>
               <FilePath>..\Drivers\CMSIS\Lib\ARM\arm_cortexM4lf_math.lib</FilePath>
-            </File>
-            <File>
-              <FileName>AS5048.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\AS5048.c</FilePath>
             </File>
             <File>
               <FileName>main.c</FileName>
@@ -666,6 +647,41 @@
               <FileName>stm32f4xx_hal_msp.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Core/Src/stm32f4xx_hal_msp.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>User</GroupName>
+          <Files>
+            <File>
+              <FileName>IM_TEST.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\IM_TEST.c</FilePath>
+            </File>
+            <File>
+              <FileName>IM_TEST.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\User\IM_TEST.h</FilePath>
+            </File>
+            <File>
+              <FileName>MA600.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\MA600.c</FilePath>
+            </File>
+            <File>
+              <FileName>MA600.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\User\MA600.h</FilePath>
+            </File>
+            <File>
+              <FileName>YIS130.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\YIS130.c</FilePath>
+            </File>
+            <File>
+              <FileName>YIS130.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\User\YIS130.h</FilePath>
             </File>
           </Files>
         </Group>

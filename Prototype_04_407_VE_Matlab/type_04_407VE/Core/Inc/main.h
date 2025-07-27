@@ -36,6 +36,13 @@ extern "C" {
 
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
+typedef struct{
+	uint8_t head[2];
+	uint8_t acc[6];
+	uint8_t angv[8];
+	uint8_t euler[6];
+	uint8_t tail[2];
+} imu_data;
 
 /* USER CODE END ET */
 

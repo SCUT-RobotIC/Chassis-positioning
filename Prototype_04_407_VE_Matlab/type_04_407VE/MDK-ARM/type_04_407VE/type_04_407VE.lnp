@@ -1,9 +1,6 @@
 --cpu=Cortex-M4.fp.sp
 "type_04_407ve\startup_stm32f407xx.o"
-"type_04_407ve\im_test.o"
-"type_04_407ve\yis130.o"
 "..\Drivers\CMSIS\Lib\ARM\arm_cortexM4lf_math.lib"
-"type_04_407ve\as5048.o"
 "type_04_407ve\main.o"
 "type_04_407ve\gpio.o"
 "type_04_407ve\can.o"
@@ -13,6 +10,9 @@
 "type_04_407ve\usart.o"
 "type_04_407ve\stm32f4xx_it.o"
 "type_04_407ve\stm32f4xx_hal_msp.o"
+"type_04_407ve\im_test_1.o"
+"type_04_407ve\ma600.o"
+"type_04_407ve\yis130_1.o"
 "type_04_407ve\stm32f4xx_hal_can.o"
 "type_04_407ve\stm32f4xx_hal_rcc.o"
 "type_04_407ve\stm32f4xx_hal_rcc_ex.o"
@@ -32,7 +32,7 @@
 "type_04_407ve\stm32f4xx_hal_tim_ex.o"
 "type_04_407ve\stm32f4xx_hal_uart.o"
 "type_04_407ve\system_stm32f4xx.o"
-"../Middlewares/ST/ARM/DSP/Lib/arm_cortexM4l_math.lib"
+"..\Middlewares\ST\ARM\DSP\Lib\arm_cortexM4l_math.lib"
 --library_type=microlib --strict --scatter "type_04_407VE\type_04_407VE.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
